@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<title>Translations</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Universal Language Translations</h1>
+    <form id="text-translation-form">
+	    <h2>Text Translation</h2>
+	    
+	    <label for="text">Text to Translate:</label>
+	    <input type="text" id="text" name="text">
+
+	    <label for="source-language">Source Language:</label>
+	    <select id="source-language" name="source-language">
+
+		    <!-- List of supported languages for source -->
+		    <!-- Replace with dynamic options based on the API response -->
+		    <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <label for="target-language">Target Language:</label>
+	    <select id="target-language" name="target-language">
+		    <!-- List of supported languages for target -->
+		    <!-- Replace with dynamic options based on the API response --
+	      	    <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <button type="button" onclick="translateText()">Translate</button>
+
+	    <div class="translation-result">
+	    	     <h3>Translation Result:</h3>
+		     <pre id="text-translation-result"></pre>
+	    </div>
+    </form>
+
+    <form id="document-translation-form">
+	    <h2>Document Translation</h2>
+
+	    <label for="document">Select Document:</label>
+	    <input type="file" id="document"  name="document">
+
+	    <label for="source-language-doc">Source Language:</label>
+	    <select id="source-language-doc" name="source-language-doc">
+		    <!-- List of supported languages for source -->
+		    <!-- Replace with dynamic options based on the API response -->
+		    <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+	    
+	    <label for="target-language-doc">Target Language:</label>
+	    <select id="target-language-doc" name="target-language-doc">
+		    <!-- List of supported languages for source -->
+		    <!-- Replace with dynamic options based on the API response -->		       <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <button type="button" onclick="translateDocument()">Translate</button>
+
+	    <div class="translation-result">
+		    <h3>Translation Result:</h3>
+		    <pre id="document-translate-result"></pre>
+	    </div>
+    </form>
+
+    <form id="Image-translation-form">
+	    <h2>Image Translation</h2>
+
+	    <label for="image">Select Image:</label>
+	    <input type="file" id="image" name="image">
+
+	    <label for="source-language-img">Source Language:</label>
+	    <select id="source-language-img" name="source-language-img">
+		    <!-- List of supported languages for source -->
+		    <!-- Replace with dynamic options based on the API response -->		       <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <label for="target-language-img">Target Language:</label>
+	    <select id="target-language-img" name="target-language-img">
+		    <!-- List of supported languages for target -->
+		    <!-- Replace with dynamic options based on the API response -->		       <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <button type="button" onclick="translateImage()">Translate</button>
+
+	    <div class="translation-result">
+		    <h3>Translation Result:</h3>
+		    <img id="image-translation-result" alt="Translated Image">
+	    </div>
+    </form>
+
+    <form id="website-translation-form">
+	    <h2>Website Translation</h2>
+
+	    <label for="website-url">Website URL:</label>
+	    <input type="text" id="website-url" name="website-url" placeholder="https://www.example.com">
+	    
+	    <label for="source-language-web">Source Language:</label>
+	    <select id="source-language-web" name="source-language-web">
+		    <!-- List of supported languages for source -->
+		    <!-- Replace with dynamic options based on the API response -->		       <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <label for="target-language-web">Target Language:</label>
+	    <select id="target-language-web" name="target-language-web">
+		    <!-- List of supported languages for target -->
+		    <!-- Replace with dynamic options based on the API response -->		       <option value="en">English</option>
+		    <option value="sw">Swahili</option>
+		    <option value="zu">Zulu</option>
+		    <option value="ko">Korean</option>
+	    </select>
+
+	    <button type="button" onclick="translateWebsite()">Translate</button>
+
+	    <div class="translation-result">
+		    <h3>Translation Result:</h3>
+		    <iframe id="website-translation-result" frameborder="0" width="100%" height="500"></iframe>
+	    </div>
+    </form>
+    
+	<script>
+		function TranslateText() {
+			// Code to handle text translation
+		}
+
+		function translateDocument() {
+			// Code to handle document translation
+		}
+
+		function TranslateImage() {
+			// Code to handle image translation
+		}
+
+		function translateWebsite() {
+			//Code to handle website translation
+		}
+
+	</script>
+  </div>
+</body>
+</html>
+
+
+
+  
+        <option value="en">English</option>
+        <option value="sw">Swahili</option>
+        <option value="zu">Zulu</option>
+        <option value="es">Spanish</option>
+        <!-- Add more language options here -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="target-language">To:</label>
+      <select id="target-language">
+        <option value="en">English</option>
+        <option value="sw">Swahili</option>
+        <option value="zu">Zulu</option>
+        <option value="es">Spanish</option>
+        <!-- Add more language options here -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="text-to-translate">Text to Translate:</label>
+      <input type="text" id="text-to-translate" placeholder="Enter text to translate">
+    </div>
+
+    <button class="button" onclick="translateText()">Translate</button>
+
+    <div class="translation-result">
+      <label for="translated-text">Translated Text:</label>
+      <p id="translated-text"></p>
+    </div>
+  </div>
+
+  <script>
+    function translateText() {
+      var sourceLanguage = document.getElementById("source-language").value;
+      var targetLanguage = document.getElementById("target-language").value;
+      var textToTranslate = document.getElementById("text-to-translate").value;
+
+      // Perform translation using an API or other translation service
+      // and update the "translated-text" element with the result
+      var translatedText = performTranslation(textToTranslate, sourceLanguage, targetLanguage);
+      document.getElementById("translated-text").innerText = translatedText;
+    }
+
+    // Function to perform translation using an API or other translation service
+    function performTranslation(text, sourceLanguage, targetLanguage) {
+      // Replace this with your actual translation logic
+      // Return the translated text as a result
+      return "Translated text will appear here";
+    }
+  </script>
+</body>
+</html>
+

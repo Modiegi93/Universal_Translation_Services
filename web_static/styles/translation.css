@@ -1,0 +1,49 @@
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+.container {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
+}
+h1 {
+	text-align: center;
+	margin-top: 0;
+}
+form {
+	margin-top: 20px;
+	text-align: center;
+}
+label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="file"],
+select {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+button {
+	padding: 10px 20px;
+	background-color: #495dca;
+	color: #e2e3ea;
+	border: none;
+	cursor: pointer;
+}
+
+.translation-result {
+	margin-top: 20px;
+}
+
+.translation-result pre {
+	background-color: #f1f1f1;
+	padding: 10px;
+	overflow-wrap: break-word;
+}
+
