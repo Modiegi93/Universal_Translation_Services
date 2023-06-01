@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<head>
+		<link>
+	</head>
+	<body>
+		<header>
+			<h1>Universal Translation Services</h1>
+			<div class="topnav">
+				<div class="search-container">
+					<form action="/action_page.php">
+						<input class="search-input" type="text" placeholder="Search...">
+						<button type="submit"><i class="fa fa-search"></i></button>
+					</form>
+				</div>
+			<div class="account-button">
+				<strong>Account</strong>
+				<img src="img_avatar.png" alt="Avatar" class="avatar">
+				<div class="account-dropdown">
+					<a href="http://0.0.0.0:5000/account/translations_history">Translations history</a>
+					<a href="http://0.0.0.0:5000/account/settings">settings</a>
+					<a href="http://0.0.0.0:5000/account/logout">logout</a>				    </div>
+			</div>
+			</div>
+		</header>
+
+		<div class="mySidepanel" class="sidepanel">
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a href="http://0.0.0.0:5000/home">Home</a>
+			<a href="http://0.0.0.0:5000/aboutus">About us</a>
+			<a href="http://0.0.0.0:5000/translations" class="active">Translations</a>
+			<a href="http://0.0.0.0:5000/privacy&terms">Privacy & Terms</a>
+		</div>
+
+		<div id="main">
+			<button class="openbtn" onclick="openNav()">&#9776; Menu</button>
+		</div>
+
+		<div class="translation-buttons">
+    			<button class="translation-button">
+      				<img src="text-icon.png"  alt="Text" title="Text">
+    			</button>
+				<div class="tab">
+					<button class="tablinks" onclick="opendetectLanguage(event, 'detect_language')">Detect Language</button>
+					<button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+					<button class="tablinks" onclick="openLanguage(event, 'Swahili')">Swahili</button>
+					<button class="tablinks" onclick="openSourceLanguage(event, 'Source-language')">
+						<img src="dropdown-icon.png" title="source-language">
+						<div class="popover">Select language</div>
+						<ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+                                                </ul>
+					</button>
+				</div>
+				<div id="DetectLanguage" class="tabcontent">
+					<h3>Detect Language</h3>
+					<form class="text-input-form">
+						<textarea id="input-textarea" name="input-textarea" placeholder="Type your text hear..."></textarea>
+					</form>
+				</div>
+				<div id="Swahili" class="tabcontent">
+					<h3>Swahili</h3>
+					<form class="translate-input-form">
+						<textarea id="input-textarea" name="input-textarea" placeholder="Text to translate..."></textarea>
+					</form>
+				</div>
+				<div id="Source-language" class=tabcontent">
+					<img src="dropdown-icon.png" alt="Source-language" title="source-language">
+					<div class="popover">Select language</div>
+						<ul>
+							{% for language in languages %}
+							<li>{{ language.language_name }} ({{language.language_code }})</li>
+							{% endfor %}
+						</ul>
+				</div>
+				<div class="tab">
+					<button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+					<button class="tablinks" onclick="openLanguage(event, 'Spanish')">Spanish</button>
+					<button class="tablinks" onclick="openTargetLanguage(event, 'Target-language')">
+						<img src="dropdown-icon.png" title="target-language">
+						<div class="popover">Select language</div>
+					</button>
+				</div>
+				<div id="English" class="tabcontent">
+                        		<h3>English</h3>
+                        		<form class="translation-result-form">
+                                		<textarea id="translationresult" readonly></textarea>
+                        		</form>
+				</div>
+				<div id="Spanish" class="tabcontent">
+                        		<h3>Spanish</h3>
+                       	 		<form class="translation-result-form">
+                                		<textarea id="translationresult" readonly></textarea>
+                        		</form>
+                		</div>
+				<div id="Target-language" class="tabcontent">
+					<h3>
+						<ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+						</ul>
+					</h3>
+					<form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                        </form>
+				</div>
+
+    			<button class="translation-button">
+      				<img src="document-icon.png" alt="Document" title="Document">
+    			</button>
+			<div class="tab">
+				<button class="tablinks" onclick="opendetectLanguage(event, 'detect_language')">Detect Language</button>
+                                <button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+                                <button class="tablinks" onclick="openLanguage(event, 'Swahili')">Swahili</button>
+                                <button class="tablinks" onclick="openSourceLanguage(event, 'Source-language')">
+					<img src="dropdown-icon.png" title="source-language">
+						<ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+                                                </ul>
+				</button>
+                                        <div class="popover">Select language</div>
+                         </div>
+
+			 <div id="DetectLanguage" class="tabcontent">
+                 	 	<h3>Detect Language</h3>
+			  	<button class="select-file-button"><input type="file" id="document-input" name="document-input">Select file</button>
+				<br>
+				<span class="italic-text">Upload file (docs, pdf, txt)</span>
+			 </div>
+			 
+			 <div id="English" class="tabcontent">
+				 <h3>English</h3>
+				 <button class="select-file-button"><input type="file" id="document-input" name="document-input">Select file</button>
+                                 <br>
+                                 <span class="italic-text">Upload file (docs, pdf, txt)</span>
+                         </div>
+			 <div id="Swahili" class="tabcontent">
+				 <h3>Swahili</h3>
+				 <button class="select-file-button"><input type="file" id="document-input" name="document-input">Select file</button>
+                                 <br>
+                                 <span class="italic-text">Upload file (docs, pdf, txt)</span>
+                         </div>
+			 <div id="Source-language" class="tabcontent">
+				 <h3><img src="dropdown-icon.png" title="source-language">
+					 <ul>
+					 	{% for language in languages %}
+                                         	<li>{{ language.language_name }} ({{language.language_code }})</li>
+                                         	{% endfor %}
+                                         </ul>
+				 </h3>
+				 <button class="select-file-button"><input type="file" id="document-input" name="document-input">Select file</button>
+                                 <br>
+				 <span class="italic-text">Upload file (docs, pdf, txt)</span>
+
+			 </div>
+			 <div class="tab">
+                                        <button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+                                        <button class="tablinks" onclick="openLanguage(event, 'Spanish')">Spanish</button>
+					<button class="tablinks" onclick="openTargetLanguage(event, 'Target-language')">
+						<img src="dropdown-icon.png" title="target-language">
+						<ul>
+                                                	{% for language in languages %}
+                                                	<li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                	{% endfor %}
+                                         	</ul>
+					</button>
+					<div class="popover">Select language</div>
+                         </div>
+			 <div id="English" class="tabcontent">
+                                 <h3>English</h3>
+				 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+
+                         </div>
+                         <div id="Spanish" class="tabcontent">
+                                 <h3>Spanish</h3>
+				 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+
+                         </div>
+                         <div id="Target-language" class="tabcontent">
+                                 <h3>
+					 <button class="target-language">
+					 <img src="dropdown-icon.png" title="target-language">
+                                         <ul>
+                                                {% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                         </ul>
+					 </button>
+                                 </h3>
+                                 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+                         </div>
+
+    			<button class="translation-button">
+      				<img src="image-icon.png" alt="Image" title="Image">
+    			</button>
+			<div class="tab">
+                                <button class="tablinks" onclick="opendetectLanguage(event, 'detect_language')">Detect Language</button>
+                                <button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+                                <button class="tablinks" onclick="openLanguage(event, 'Swahili')">Swahili</button>
+                                <button class="tablinks" onclick="openSourceLanguage(event, 'source-language')">
+                                        <img src="dropdown-icon.png" title="source-language">
+                                                <ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+                                                </ul>
+                                </button>
+                                        <div class="popover">Select language</div>
+                         </div>
+
+                         <div id="DetectLanguage" class="tabcontent">
+                                <h3>Detect Language</h3>
+                                <button class="select-image-button"><input type="file" id="image-input" name="image-input">Select image</button>
+                                <br>
+                                <span class="italic-text">Upload image (png, jpg, jpeg)</span>
+                         </div>
+
+                         <div id="English" class="tabcontent">
+                                 <h3>English</h3>
+                                 <button class="select-image-button"><input type="file" id="image-input" name="image-input">Select image</button>
+                                 <br>
+                                 <span class="italic-text">Upload image (png, jpg, jpeg)</span>
+                         </div>
+                         <div id="Swahili" class="tabcontent">
+                                 <h3>Swahili</h3>
+                                 <button class="select-image-button"><input type="file" id="image-input" name="image-input">Select image</button>
+                                 <br>
+                                 <span class="italic-text">Upload image (png, jpg, jpeg)</span>
+                         </div>
+                         <div id="Source-language" class="tabcontent">
+				 <h3>
+                                         <button class="source-language">
+                                         <img src="dropdown-icon.png" title="source-language">
+					 <ul>
+                                                {% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                         </ul>
+                                         </button>
+					 <br>
+                                 </h3>
+                                 <button class="select-image-button"><input type="file" id="image-input" name="image-input">Select image</button>
+                                 <br>
+                                 <span class="italic-text">Upload image (png, jpg, jpeg)</span>
+			</div>
+                         <div class="tab">
+                                        <button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+                                        <button class="tablinks" onclick="openLanguage(event, 'Spanish')">Spanish</button>
+                                        <button class="tablinks" onclick="openTargetLanguage(event, 'Target-language')">
+                                                <img src="dropdown-icon.png" title="target-language">
+                                                <ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+                                                </ul>
+                                        </button>
+                                        <div class="popover">Select language</div>
+                         </div>
+                         <div id="English" class="tabcontent">
+                                 <h3>English</h3>
+                                 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+                         </div>
+                         <div id="Swahili" class="tabcontent">
+                                 <h3>Swahili</h3>
+                                 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+
+                         </div>
+                         <div id="Target-language" class="tabcontent">
+                                 <h3><img src="dropdown-icon.png" title="target-language">
+                                         <ul>
+                                                {% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                         </ul>
+                                 </h3>
+                                 <form class="translation-result-form">
+                                                <textarea id="translationresult" readonly></textarea>
+                                 </form>
+                         </div>
+
+    			<button class="translation-button">
+      				<img src="website-icon.png" alt="Website" title="Website">
+    			</button>
+			<div class="tab">
+				<button class="tablinks" onclick="opendetectLanguage(event, 'detect_language')">Detect Language</button>
+				<button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+				<button class="tablinks" onclick="openLanguage(event, 'Swahili')">Swahili</button>			
+				<button class="tablinks" onclick="openSourceLanguage(event, 'source-lang')">
+					<img src="dropdown-icon.png" title="Source-language">
+					<ul>
+                                        	{% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                        </ul>
+				</button>
+					<div class="popover">Select language</div>
+			</div>
+			<div id="DetectLanguage" class="tabcontent">	
+				<h3>Detect Language</h3>
+				<form id="website-form">
+					<label for="website-input">Enter website URL</label>
+					<input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+					<button class="website-translation-button">
+						<img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+				</form>
+			</div>
+			<div id="English" class="tabcontent">
+				<h3>English</h3>
+				<form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+                        </div>
+			<div id="Swahili" class="tabcontent">
+				<h3>Swahili</h3>
+				<form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+                        </div>
+			<div id="Source-language" class="tabcontent">
+				<h3><img src="dropdown-icon.png" title="source-language">
+					<ul>
+                                                {% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                         </ul>
+				</h3>
+				<form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+			</div>
+			<div class="tab">
+                                        <button class="tablinks" onclick="openLanguage(event, 'English')">English</button>
+                                        <button class="tablinks" onclick="openLanguage(event, 'Spanish')">Spanish</button>
+                                        <button class="tablinks" onclick="openTargetLanguage(event, 'Target-language')">
+                                                <img src="dropdown-icon.png" title="target-language">
+                                                <ul>
+                                                        {% for language in languages %}
+                                                        <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                        {% endfor %}
+                                                </ul>
+                                        </button>
+                                        <div class="popover">Select language</div>
+                         </div>
+			 <div id="English" class="tabcontent">
+                                <h3>English</h3>
+                                <form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+                        </div>
+                        <div id="Spanish" class="tabcontent">
+                                <h3>Spanish</h3>
+                                <form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+                        </div>
+                        <div id="Target-language" class="tabcontent">
+                                <h3><img src="dropdown-icon.png" title="target-language">
+                                        <ul>
+                                                {% for language in languages %}
+                                                <li>{{ language.language_name }} ({{language.language_code }})</li>
+                                                {% endfor %}
+                                         </ul>
+                                </h3>
+                                <form id="website-form">
+                                        <label for="website-input">Enter website URL</label>
+                                        <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com">
+                                        <button class="website-translation-button">
+                                                <img src="arrow-icon.png" alt="Translate Website" title="Translate Website">Enter</button>
+                                </form>
+                        </div>
+			<div class="mySidepanel" class="sidepanel">
+                        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                        <a href="http://0.0.0.0:5000/feedback">Share feedback</a>
+			<div>
+			<footer>
+				<p>Universal Translations Services 2023</p>
+				<div class="icon-bar">
+					<a href="https://www.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
+					<a href="https://www.twitter.com/" class="twitter"><i class="fa fa-twitter"></i></a>
+					<a href="https/www.google.com/" class="google"><i class="fa fa-google"></i></a>
+					<a href="https://www.linkedin.com/" class="linkedin"><i class="fa fa-linkedin"></i></a>
+					<a href="https://www.youtube.com/" class="youtube"><i class="fa fa-youtube"></i></a>
+				</div>
+			</footer>
+	</body>
+</html>
