@@ -1,12 +1,15 @@
 #!/usr/bin/python3
-"""Translation web framework"""
-import translate
+"""
+Translation route
+"""
 import translator
 import requests
+import uuid
+import json
+from datetime import datetime
 from bs4 import BeautifulSoup
 from flask import Flask, request, jsonify, render_template
-from googletrans import Translator
-from translate import Translator
+from googletrans import Translator, LANGUAGES
 from os import getenv
 from translator import storage
 from translator.translation_model import TranslationModel, Base
@@ -24,169 +27,153 @@ app = Flask(__name__)
 
 translator = Translator()
 
-@app.route('/translations', methods=['GET'])
+
+@app.route('/translations')
 def translations_page():
     """Return an html template or JSON response"""
     return render_template('translations.html')
 
 @app.route('/translations/text', methods=['POST'])
 def translate_text():
-    """Retrieve necessary data from the request payload"""
-    data = request.json
-    texts = data.get('texts')
-    source_lang = data.get('source_lang')
-    target_lang = data.get('target_lang')
+# Get the source text and target language from the form
+    input_text = request.form.get('input_text')
+    target_language = request.form.get('target_language')
 
-    translated_texts = []
+    # Perform the translation using the googletrans library
+    translator = Translator()
+    translation = translator.translate(source_text, dest=target_language).text
 
-    translator = Translator(from_lang=source_lang, to_lang=target_lang)
-    
-    for text in texts:
-        translated_text = translator.translate(text)
-        translation = TextTranslation(input_text=text,
-                                      translated_text=translated_text)
-        translated_texts.append(translated_text)
-
-    return render_template('translations.html', texts=texts,
-                           translated_texts=translated_texts)
-
-@app.route('/translations/document', methods=['POST'])
-def translate_document():
-    """Return the translated text from a file"""
-    file = request.files['file']
-    source_lang = request.form.get('source_lang')
-    target_lang = request.form.get('target_lang')
-
-    translator = Translator(from_lang=source_lang, to_lang=target_lang)
-    translated_file = f"translated_{file.filename}"
-
-    translated_file_path = f"/home/ubuntu/Universal_Language_Translation/{translated_file}"
-    file.save(translated_file_path)
-
-    translated_document = translator.translate_file(translated_file_path)
-
-    return render_template('translations.html', Query_name="DocumentTranslation",
-                           translated_document=translated_document)
-
-
-@app.route('/translations/image', methods=['POST'])
-def translate_image():
-    """Return the translated image file"""
-    file = request.files['file']
-    source_lang = request.form.get('source_lang')
-    target_lang = request.form.get('target_lang')
-
-    translated_image = translate_image_file(file, source_lang, target_lang)
-
-    translation = ImageTranslation(source_lang=source_lang, target_lang=target_lang,
-                                   translated_image=translated_image)
-    storage.new(translation)
+    # Store the translation in the database and file storage
+    new_translation = TextTranslation(text=input_text,
+                                       source_language='auto',
+                                       target_language=target_language,
+                                       translated_text=translation)
+    storage.new(new_translation)
     storage.save()
 
-    return render_template('translations.html', 
-                           translated_image=translated_image)
+    return render_template('translations.html', translation=translation)
 
-def translate_image_file(file, source_lang, target_lang):
-    """Translate the text in the given image"""
-    vision_client = vision.ImageAnnotatorClient()
-    image_content = file.read()
 
-    image = vision.Image(content=image_content)
-
-    response = vision_client.text_detection(image=image)
-    text_annotations = response.text_annotations
-
-    if text_annotations:
-        text = text_annotations[0].description
-        translated_text = translate_text(text, source_lang, target_lang)
-        return translated_text
+@app.route('/translations/<language_supported>')
+def get_supported_languages(language_supported):
+    if language_supported == 'all':
+        supported_languages = LANGUAGES
     else:
-        return "No text found in the image"
+        # Filter the supported languages based on the provided language code
+        supported_languages = {code: name for code, name in LANGUAGES.items()
+                               if code.startswith(language_supported)}
+        
+        storage.new(supported_languages)
+        storage.save()
 
-@app.route('/translations/website', methods=['POST'])
-def translate_website():
-    """Return the translated website"""
-    website_url = request.json.get('website_url')
-    source_lang = request.json.get('source_lang')
-    target_lang = request.json.get('target_lang')
-
-    response = requests.get(website_url)
-    html_content = response.text
-
-    soup = BeautifulSoup(html_content, 'html.parser')
-
-    text_elements = soup.find_all(text=True)
-
-    translated_elements = []
-    for element in text_elements:
-        translated_text = translate_text(element, source_lang, target_lang)
-        translated_elements.append(translated_text)
-
-    for i, element in enumerate(text_elements):
-        element.string = translated_elements[i]
-
-    translated_html = str(soup)
-
-    translation = WebsiteTranslation(website_url=html_content, 
-                                     translated_website=translated_html)
-    
-    storage.new(translation)
-    storage.save()
-
-    return render_template('translations.html',
-                           translated_html=translated_html)
-
-
-@app.route('/translations/detect-language', methods=['POST'])
-def detect_language():
-    """Detect the language of the input text"""
-    input_text = request.json.get('text')
-
-    detected_language = detect_language(input_text)
-
-    detection = DetectedLanguage(input_text=input_text,
-                                 detected_language=detected_language)
-    return render_template('translations.html',
-                           detect_language=detect_language)
-
-def detected_language(text):
-    """Detect the language of the given text"""
-    translator = Translator(to_lang='en', from_lang='auto')
-    detected_language = translator.translate(text).split(' ')[-1]
-    return detected_language
-
-@app.route('/translations/languages', methods=['GET'])
-def get_supported_languages():
-    """Get the list of supported languages for translation"""
-    populate_supported_languages()
-    supported_languages = LanguageSupport.storage.all("Languages").values
-    languages = [{'code': lang.code, 'language': lang.language} 
-                 for lang in supported_languages]
     return render_template('translations.html',
                            supported_languages=supported_languages)
 
-def populate_supported_languages():
-    """Populate the supported languages in the database"""
-    translator = Translator(to_lang='en')
-    languages = translator.languages.keys()
+@app.route('/translations/detect_language', methods=['POST'])
+def detect_language():
+    # Get the text to detect language from the request data
+    text_to_detect = request.json['text']
 
-    for code in languages:
-        language = translator.languages[code]
-        supported_language = LanguageSupport(code=code, language=language)
-        storage.new(supported_language)
+    # Perform language detection using Google Translate
+    detected_language = detect_languages(text_to_detect)
+
+    storage.new(detected_language)
     storage.save()
 
-@app.route('/translations/feedback', methods=['POST'])
-def submit_feedback():
-    """Submit translation feedback"""
-    id = request.json.get('translation_id')
-    input_text = request.json.get('input_text')
+    return jsonify({'detected_language': detected_language})
 
-    feedback = FeedBack(id=id, input_text=input_text)
-    storage.new(feedback)
+def detect_languages(text):
+    # Create an instance of the Translator class
+    translator = Translator()
+
+    # Use the detect() method to detect the language
+    detected_language = translator.detect(text).lang
+
+    return detected_language
+
+@app.route('/feedback', methods=['POST'])
+def receive_feedback():
+    feedback = request.json.get('feedback')
+
+    # Process and store the feedback in your database or perform
+    any desired actions
+
+    return jsonify({'message': 'Feedback received'})
+
+@app.route('/')
+def index():
+    return render_template('translations.html')
+
+@app.route('/translations/text', methods=['GET', 'POST'])
+def translate_text():
+    if request.method == 'POST':
+        text_to_translate = request.form.get('textToTranslate')
+        translator = Translator()
+        translated_text = translator.translate(text_to_translate)
+
+        storage.new(translated_text)
+        storage.save()
+
+        return {'translated_text': translated_text.text}
+    
+    return render_template('translations.html')
+
+@app.route('/translations/document', methods=['POST'])
+def translate_document():
+    # Get the uploaded document from the request
+    document = request.files['document-input']
+
+    # Read the contents of the document
+    document_text = document.read()
+
+    # Perform the translation using Googletrans
+    translator = Translator()
+    translated_text = translator.translate(document_text)
+
+    storage.new(translated_text)
+    storage.save()
+    
+    # Render the template with the translated text
+    return render_template('translations.html',
+                           translated_text=translated_text.text)
+
+@app.route('/translations/image', methods=['POST'])
+def translate_image():
+    file = request.files['image-input']
+    image = Image.open(file)
+    text = pytesseract.image_to_string(image)
+    
+    translator = Translator()
+    translation = translator.translate(text, dest='en')
+   
+    storage.new(translation)
     storage.save()
 
-    return render_template('feedback_success.html')
+    return translation.text
+
+@app.route('/translations/website', methods=['POST'])
+def translate_website():
+    url = request.form.get('website-input')
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    text = soup.get_text()
+    
+    translator = Translator()
+    translation = translator.translate(text, dest='en')
+    
+    storage.new(translation)
+    storage.save()
+
+    return translation.text
+
+@app.route('/translations/history')
+def translation_history():
+    # Retrieve translations from the database
+    translations = TranslationModel.query.all()
+
+    # Render the template with the translations data
+    return render_template('translation_history.html',
+                           translations=translations)
 
 @app.teardown_appcontext
 def close_session(exception):
@@ -195,4 +182,3 @@ def close_session(exception):
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port="5000")
-
