@@ -17,24 +17,24 @@ from translator.detect_language import DetectLanguage
 @app_views.route('/status', strict_slashes=False)
 def _status():
     """return a JSON file with Status: OK"""
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}])
 
 @app_views.route('/stats', strict_slashes=False)
 def stats():
     """Create an endpoint that retrieves the number of each objects by type"""
-    countTextTranslation = storage.count("TextTranslation")
-    countDocumentTranslation = storage.count("DocumentTranslation")
-    countImageTranslation = storage.count("ImageTranslation")
-    countWebsiteTranslation = storage.count("WebsiteTranslation")
+    countTextTranslations = storage.count("TextTranslation")
+    countDocumentTranslations = storage.count("DocumentTranslation")
+    countImageTranslations = storage.count("ImageTranslation")
+    countWebsiteTranslations = storage.count("WebsiteTranslation")
     countFeedBack = storage.count("FeedBack")
-    countLanguageSupport = storage.count("LanguageSupport")
+    countLanguageSupported = storage.count("LanguageSupport")
     countDetectLanguage = storage.count("DetectLanguage")
     countUsers = storage.count("User")
     
-    return jsonify(text_translations=countTextTranslation,
-                   document_translations=countDocumentTranslation,
-                   image_translations=countImageTranslation,
-                   website_translations=countWebsiteTranslation,
+    return jsonify(text_translations=countTextTranslations,
+                   document_translations=countDocumentTranslations,
+                   image_translations=countImageTranslations,
+                   website_translations=countWebsiteTranslations,
                    detect_languages=countDetectLanguage,
                    languages_supported=countLanguageSupport,
                    feedbacks=countFeedBack,
