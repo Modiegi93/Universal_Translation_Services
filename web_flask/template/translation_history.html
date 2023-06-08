@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../static/styles/translations.css">
+  <link rel="icon" type="image/png" href="../static/images/icon.png">
+</head>
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 1
+    <div class="logo">
+      <img src="\Users\mmpha\OneDrive\Desktop\Alx Software Engineering\Universal translation services\ult_logo.png" alt="Logo
+    </div>
+    <div class="header-container" style="display: flex; align-items: center;">
+      <div class="search-container" style="margin-right: 10px;">
+        <form action="/action_page.php">
+          <input class="search-input" type="text" placeholder="Search...">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      <div class="account-button">
+        <img src="img_avatar.png" alt=" "><span><i class="fa fa-account"></i></span>
+        <div class="account-dropdown">
+          <a href="http://0.0.0.0:5000/my_account">My Account</a>
+          <a href="http://0.0.0.0:5000/translations_history">Translations history</a>
+          <a href="http://0.0.0.0:5000/settings">Settings</a>
+          <a href="http://0.0.0.0:5000/logout">Logout</a>		
+        </div>
+      </div>
+    </div>
+  </div> 
+  </header>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="http://0.0.0.0:5000/home">Home</a>
+    <a href="http://0.0.0.0:5000/about_us">About us</a>
+    <a href="http://0.0.0.0:5000/translations">Translations</a>
+    <a href="http://0.0.0.0:5000/privacy&terms">Privacy&Terms</a>
+  </div>
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+
+  <div id="main">
+    <h2>Translation History</h2>
+    <table id="translationHistoryTable">
+        <tr>
+            <th>Date</th>
+            <th>Source Text</th>
+            <th>Translated Text</th>
+            <th>Language</th>
+            <th>Type</th>
+        </tr>
+        {% for translation in translations %}
+        <tr>
+            <td>{{ translation.date }}</td>
+            <td>{{ translation.source_text }}</td>
+            <td>{{ translation.translated_text }}</td>
+            <td>{{ translation.language }}</td>
+            <td>{{ translation.type }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+  </div>
+<footer>
+	<p>Universal Translations Services copyright 2023</p>
+		<div class="icon-bar">
+  			<a href="https://www.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
+  			<a href="https://www.twitter.com/" class="twitter"><i class="fa fa-twitter"></i></a>
+  			<a href="https/www.google.com/" class="google"><i class="fa fa-google"></i></a>
+  			<a href="https://www.linkedin.com/" class="linkedin"><i class="fa fa-linkedin"></i></a>
+  			<a href="https://www.youtube.com/" class="youtube"><i class="fa fa-youtube"></i></a>
+		</div>
+</footer>
+</body>
+</html>
