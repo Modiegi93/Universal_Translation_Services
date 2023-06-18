@@ -1,0 +1,42 @@
+!DOCTYPE html>
+<html>
+<head>
+  <title>Subscription</title>
+</head>
+<body>
+  <div id="Subscription" class="tabcontent">
+    <h3 style="text-align: center">Subscription Plan</h3>
+    <p style="text-align: center">Upgrade to start your 14 days free trial. You can cancel your trial anytime before your trial ends.</p>
+    <div class="price_columns">
+      <ul class="price">
+        <li class="header">Basic</li>
+        <li class="grey">$9.99 / year</li>
+        <li>10GB Storage</li>
+        <li>50 Emails (image or document)</li>
+        <li>15 website translations</li>
+        <li class="grey"><a href="{{ url_for('signup_basic') }}" class="price_button" style="background-color: rgb(54, 123, 180);">Current plan</a></li>
+      </ul>
+    </div>
+    <div class="price_columns">
+      <ul class="price">
+        <li class="header" style="background-color: rgba(0,0,0,0.2);">Pro</li>
+        <li class="grey">$24.99 / year</li>
+        <li>25GB Storage</li>
+        <li>100 Emails (image or document)</li>
+        <li>30 Websites</li>
+        <li class="grey"><a href="{{ url_for('signup_pro') }}" class="price_button">Upgrade</a></li>
+      </ul>
+    </div>
+    <div class="price_columns">
+      <ul class="price">
+        <li class="header" style="background-color: rgba(0,0,0,0.2);">Premium</li>
+        <li class="grey">$39.99 / year</li>
+        <li>50GB Storage</li>
+        <li>200 Emails (images or documents)</li>
+        <li>50 Websites</li>
+        <li class="grey"><a href="{{ url_for('signup_premium') }}" class="price_button">Upgrade</a></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

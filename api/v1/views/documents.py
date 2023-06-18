@@ -1,102 +1,123 @@
 #!/usr/bin/python3
 """Document translations views"""
-
-from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request, send_from_directory
-from translator import storage, DocumentTranslation
-from googletrans Translator, LANGUAGES
+import os
+from flask import request, jsonify, abort, send_file
+from langdetect import detect
 from werkzeug.utils import secure_filename
+from datetime import datetime
+from docx import Document
+from pptx import Presentation
+from openpyxl import load_workbook
+from datetime import datetime
+import requests
+from api.v1.views import app_views
+from flask import Flask, jsonify, abort, request
+from translator import storage
+from translator.document import DocumentTranslation
+from translator.translation_model import TranslationModel, Base
 
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'}
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = '/home/ubuntu/Universal_Translation_Services/uploads'
 
-translator = Translator(service_urls=['translate.google.com'])
 
-# Helper function to check if file extension is allowed
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+RAPIDAPI_API_KEY = 'f94d683e50mshe579b860a6a88cap1ebc29jsna3f5e765683f'
+RAPIDAPI_HOST = 'google-translate1.p.rapidapi.com'
 
-# Get available languages
-available_languages = {code: name for code, name in LANGUAGES.items()}
-
-@app.route('/translations/<document_translations>', methods=['POST'])
-def translate_document():
-    # Check if a file is included in the request
-    if 'file' not in request.files:
-        abort(400, 'No file provided')
+@app_views.route('/documents', methods=['POST'], strict_slashes=False)
+def create_document():
+    if not request.files or 'file' not in request.files or 'target_lang' not in request.form:
+        abort(400, 'Invalid request')
 
     file = request.files['file']
+    target_lang = request.form['target_lang']
 
-    # Check if the file has an allowed extension
-    if not allowed_file(file.filename):
-        abort(400, 'Invalid file extension')
+    # Process different file types
+    if file.filename.endswith('.docx'):
+        document = Document(file)
+        input_text = ' '.join([p.text for p in document.paragraphs])
+    elif file.filename.endswith('.pptx'):
+        presentation = Presentation(file)
+        input_text = ' '.join([slide.text for slide in presentation.slides])
+    elif file.filename.endswith('.xlsx'):
+        workbook = load_workbook(file)
+        input_text = ' '.join([cell.value for sheet in workbook for row in sheet.iter_rows() for cell in row if cell.value])
+    else:
+        input_text = file.read().decode('utf-8')
 
-    # Get the target language from the request
-    target_language = request.form.get('target_language')
+    headers = {
+        'X-RapidAPI-Key': RAPIDAPI_API_KEY,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-RapidAPI-Host': RAPIDAPI_HOST
+    }
 
-    if not target_language:
-        abort(400, 'Target language not specified')
+    payload = {
+        'q': input_text,
+        'target': target_lang
+    }
 
-    # Check if the target language is valid
-    if target_language not in available_languages:
-        abort(400, 'Invalid target language')
-
-    # Translate the document
     try:
-        translation = translate_document_file(file, target_language)
-        return jsonify({'translation': translation.to_dict()})
+        response = requests.post('https://google-translate1.p.rapidapi.com/language/translate/v2',
+                                 headers=headers, data=payload)
+        translation = response.json()['data']['translations'][0]['translatedText']
+
+        # Language detection
+        source_lang = detect(input_text)
+
+        # Store the document details in the database
+        new_document = DocumentTranslation(input_text=file.filename,
+                                           source_lang=source_lang,
+                                           target_lang=target_lang,
+                                           translated_text=translation,
+                                           created_at=datetime.utcnow())
+        storage.new(new_document)
+        storage.save()
+
+        return jsonify({'translated_text': translation, 'source_lang': source_lang}), 200
     except Exception as e:
         abort(500, str(e))
 
-def translate_document_file(file, target_language):
-    # Save the file to the uploads folder
-    filename = secure_filename(file.filename)
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(file_path)
+@app_views.route('/documents/<document_id>/download', methods=['GET'],
+                 strict_slashes=False)
+def download_document(document_id):
+    document = storage.get(DocumentTranslation, id=document_id)
+    if not document:
+        abort(404, 'Document not found')
 
-    # Detect the source language of the document
-    with open(file_path, 'r', encoding='utf-8') as f:
-        source_text = f.read()
+    # Get the file path of the document
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], document.input_text)
 
-    # Detect the source language using Google Translate library
-    detection_result = translator.detect(source_text)
-    source_language = detection_result.lang
+    if os.path.isfile(file_path):
+        # Send the file for download
+        return send_file(file_path, as_attachment=True,
+                         attachment_filename=document.input_text)
+    else:
+        abort(404, 'File not found')
 
-    # Translate the document using the Google Translate library
-    result = translator.translate(source_text, src=source_language,
-                                  dest=target_language)
-    translated_text = result.text
+@app_views.route('/documents', methods=['GET'], strict_slashes=False)
+def get_all_documents():
+    documents = storage.all(DocumentTranslation)
+    document_list = [translation.to_dict() for translation in documents.values()]
+    return jsonify({'documents': document_list}), 200
 
-    # Store the translation in the database
-    translation = DocumentTranslation(filename=filename,
-                                     source_language=source_language,
-                                     target_language=target_language,
-                                     translated_text=translated_text)
-    storage.new(translation)
+@app_views.route('/documents/<document_id>', methods=['GET'], strict_slashes=False)
+def get_document(document_id):
+    document = storage.get(DocumentTranslation, document_id)
+    if not document:
+        abort(404, 'Document translation not found')
+    return jsonify({
+        'id': document.id,
+        'filename': document.input_text,
+        'source_lang': document.source_lang,
+        'target_lang': document.target_lang,
+        'translated_text': document.translated_text,
+        'created_at': document.created_at
+    }), 200
+
+@app_views.route('/documents/<document_id>', methods=['DELETE'], strict_slashes=False)
+def delete_document(document_id):
+    document = storage.get(DocumentTranslation, document_id)
+    if not document:
+        abort(404, 'Document translation not found')
+    storage.delete(document)
     storage.save()
-
-    # Delete the uploaded file
-    os.remove(file_path)
-
-    return translation
-
-@app.route('/download/<int:translation_id>', methods=['GET'])
-def download_translation(translation_id):
-    translation = session.query(DocumentTranslation).get(translation_id)
-    if not translation:
-        abort(404, 'Translation not found')
-
-    # Generate a downloadable text file with the translated text
-    translated_filename = f'translation_{translation.id}.txt'
-    translated_filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                       translated_filename)
-    with open(translated_filepath, 'w', encoding='utf-8') as f:
-        f.write(translation.translated_text)
-
-    return send_from_directory(app.config['UPLOAD_FOLDER'], translated_filename,
-                               as_attachment=True)
-
-@app.route('/translations/<language_supported>', methods=['GET'])
-def get_languages():
-    return jsonify({'languages': available_languages})
+    return jsonify({'message': 'Document translation deleted successfully'}), 200

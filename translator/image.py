@@ -16,14 +16,14 @@ class ImageTranslation(TranslationModel, Base):
     if translator.storage_type == "db":
         __tablename__ = "image_translations"
         id = Column(String(60), primary_key=True)
-        input_file = Column(String(4500), nullable=False)
+        input_text = Column(String(4500), nullable=False)
         source_lang = Column(String(50), nullable=False)
         target_lang = Column(String(50), nullable=False)
         translated_text = Column(Text, nullable=False)
 
     else:
         id = ""
-        input_file = ""
+        input_text = ""
         source_lang = ""
         target_lang = ""
         translated_text = ""

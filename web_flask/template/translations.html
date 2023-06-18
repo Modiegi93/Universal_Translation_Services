@@ -3,9 +3,18 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="styles/translations.css"/>
-  <link rel="shortcut icon" href="images/logo.png" type="image/icon"/>
-</head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive-bootstrap/4.0.1/jquery.validate.unobtrusive.bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/googletrans@4.0.0/dist/googletrans.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pytesseract/2.6.0/pytesseract.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.3.0/tesseract.js"></script>
+  <link rel="stylesheet" type="text/css" href="styles/translations.css"/>
+  <link rel="stylesheet" type="image/png" href="/images/logo.png">
+  </head>
 <body>
   <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
     <div class="logo">
@@ -18,9 +27,9 @@
           <button type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>
-      <div class="account-button">
-        <img src="/images/avatar.png">
-        <div class="account-dropdown">
+      <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">My Account</button>
+        <div id="myDropdown" class="dropdown-content">
           <a href="http://0.0.0.0:5000/my_account">My Account</a>
           <a href="http://0.0.0.0:5000/logout">Logout</a>		
         </div>
@@ -30,10 +39,9 @@
   </header>
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="http://0.0.0.0:5000/home">Home</a>
     <a href="http://0.0.0.0:5000/about_us">About us</a>
     <a href="http://0.0.0.0:5000/translations">Translations</a>
-    <a href="http://0.0.0.0:5000/privacy&terms">Privacy&Terms</a>
+    <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
   </div>
   <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
 
@@ -82,11 +90,9 @@
     <div class="Language">
       <select id="languageSelector" onchange="selectLanguage()" style="border: none; background-color: transparent; color: black; font-size: large">
         <option value="" disabled selected>Select language (To):</option>
-        <ul>
-  		{% for code, name in supported_languages.items() %}
-    		<li>{{ name }} ({{ code }})</li>
-  		{% endfor %}
-	</ul>
+          {% for code, name in supported_languages.items() %}
+            <option value="{{ code }}">{{ name }} - ({{ code }})</option>
+          {% endfor %}
       </select>
     </div>
   </div>
@@ -114,13 +120,12 @@
     <div class="row">
     <div class="column" style="flex: 1;">
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-        <h2 style="text-align: left; color:black">Document to translate</h2>
-        <form id="document-form">
-        <input type="file" name="document-input;" id="document-input;" id="textToTranslate" style="padding: 10px 20px; border-radius: 10px; align-self: center; background-color: rgb(20, 68, 100); color: white;" accept=".pdf,.txt,.docx,.xlsx,.pptx">
-        <br>
-        <span class="italic-text" style="color: grey; font-style: italic; font-size: smaller;">Upload file (pdf, txt, docx, xlsx, pptx)</span>
-        <br>
-        <button type="submit" onclick="translateDocument()" class="translate-button">Translate</button>
+        <div class="file-upload-container">
+          <label for="file-input" class="file-input-button"style="padding: 10px 20px; border-radius: 10px; align-self: center; background-color: rgb(20, 68, 100); color: white;" >Choose file</label>
+          <br>
+          <span class="file-upload-description">Upload file (pdf, txt, xlsx, pptx)</span>
+          <input type="file" id="file-input" style="display: none;" accept= ".pdf,.txt,.docx,.xlsx,.pptx">
+        </div>
       </div>
     </div>
     <div class="column" style="flex: 1;">
@@ -128,57 +133,64 @@
       <p contenteditable="false" id="translatedOutput" style="text-align: left; width: 100%; height: 60%; border: 1px solid darkgrey; padding: 5px; color:black"></p>
     </div>
   </div>
+  <button onclick="translateText()" class="translate-button">Translate</button>
 </div>
 
 <div id="b3" class="containerTab" style="display:none;background: lightgrey">
   <div class="row">
     <div class="column" style="flex: 1;">
       <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%;">
-        <h2 style="text-align: left; color:black">Image to translate</h2>
-        <form id="image-form" method="POST" enctype="multipart/form-data" action="/translations/image">
-          <input type="file" name="image-input;" id="image-input" style="padding: 10px 20px; border-radius: 10px; align-self: center; background-color: rgb(20, 68, 100); color: white;" accept=".png,.jpg,.jpeg">
-          <br>
-          <span class="italic-text" style="color: black; font-style: italic; font-size: smaller;">Upload image(png, jpg or jpeg)</span>
-          <br>
-          <button type="submit" class="translate-button">Translate</button>
-        </form>
+        <h2 style="text-align: left; color:black"></h2>
+          <div class="file-upload-container">
+            <label for="file-input" class="file-input-button"style="padding: 10px 20px; border-radius: 10px; align-self: center; background-color: rgb(20, 68, 100); color: white;" >Choose Image</label>
+            <br>
+            <span class="file-upload-description">Upload image (png, jpg, or jpeg)</span>
+            <input type="file" id="file-input" style="display: none;" accept=".png,.jpg,.jpeg" >
+          </div>
       </div>
-    </div>
+      </div>
 
     <div class="column" style="flex: 1;">
       <h2 style="text-align: left; color:black">Translated Text</h2>
       <p contenteditable="false" id="translatedOutput" style="text-align: left; width: 100%; height: 60%; border: 1px solid darkgrey; padding: 5px; color:black"></p>
     </div>
   </div>
+  <button onclick="translateText()" class="translate-button">Translate</button>
 </div>
 
 <div id="b4" class="containerTab" style="display:none;background: lightgrey; display: flex; flex-direction: column; align-items: center;">
-  <h2 style="text-align: center; font-size: 20px; margin-top: 10px;">Website to translate</h2>
   <form id="website-form" style="display: flex; flex-direction: column; align-items: center;">
-    <label style="text-align: center; font-weight: bold;">Enter Website URL</label>
-    <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com" style="width: 300px;">
-    <button class="website-translation-button" style="background: rgb(20, 68, 100); color: black; border-radius: 20px; padding: 10px 20px; border: none; margin-top: 10px;">
-      <img src="arrow-icon.png" style="width: 20px; height: 20px;">
+    <label style="text-align: center; font-weight: bold; font-size: 30px;">Enter Website URL</label>
+    <input type="text" id="website-input" name="website-input" placeholder="https://www.example.com" style="width: 300px; padding: 10px 20px; border-radius: 10px; align-self: center;">
+    <button class="website-translation-button" style="background: rgb(20, 68, 100); color: white; border-radius: 20px; padding: 10px 20px; border: none; margin-top: 10px;" data-toggle="popover" title="Translate Website">
+      <span class="button-icon"  style="font-size: 30px;"><i class="fas fa-arrow-right"></i></span>
     </button>
   </form>
 </div>
-</body>
-<footer>
-  <p>Universal Translations Services copyright 2023</p>
-    <div class="icon-bar">
-      <a href="https://www.facebook.com/" class="facebook"><i class="fa fa-facebook"></i></a>
-      <a href="https://www.twitter.com/" class="twitter"><i class="fa fa-twitter"></i></a>
-      <a href="https/www.google.com/" class="google"><i class="fa fa-google"></i></a>
-      <a href="https://www.linkedin.com/" class="linkedin"><i class="fa fa-linkedin"></i></a>
-      <a href="https://www.youtube.com/" class="youtube"><i class="fa fa-youtube"></i></a>
+<footer class="footer">
+  <div class="quick-links">
+    <h4 class="quick-links-heading">Quick links</h4>
+    <a href="https://0.0.0.0:5000/privacy_terms">Terms of Service</a>
+    <a href="https://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="social-bar">
+    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+  <div class="newsletter-form">
+    <div class="subscription-text">
+      <h4 style="color: black">Subscribe to our newsletter for updates</h4>
+      <input type="checkbox" id="daily-newsletter" name="daily-newsletter">
+      <label for="daily-newsletter">Receive daily newsletter</label>
     </div>
-  </footer>
-</div>
-
-<script>
-
-
-</script>
+    <input type="email" class="newsletter-input" placeholder="Your email address">
+    <button class="newsletter-submit" type="submit">Subscribe</button>
+  </div>
+  <div class="copyright">
+      © 2023 Universal Translation Service. All rights reserved.</p>
+  </div>
+</footer>
 </body>
 </html>
-

@@ -3,7 +3,7 @@
 
 from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
-from models import storage
+from translator import storage
 from translator.user import User
 
 
@@ -62,19 +62,22 @@ def create_user():
 @app_views.route('/users/<user_id>',
                  methods=['PUT'],
                  strict_slashes=False)
-def put_user(user_id=None):
+def update_user(user_id=None):
     """ update a User """
     user = storage.get("User", user_id)
     if user is None:
         abort(404)
     try:
-        req = request.get_json()
+        req = request.get_json(force=True)
     except ValueError:
         req = None
     if req is None:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for key, val in req.items():
-        if key not in ('id', 'email', 'created_at', 'updates_at'):
+        if key not in ('id', 'email', 'created_at', 'updated_at'):
             setattr(user, key, val)
+    if 'email' in req:
+        user.email = req['email']
+
     user.save()
     return jsonify(user.to_dict())

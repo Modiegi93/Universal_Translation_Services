@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="static/scripts/general.js?{{ cache_id }}"></script>
+    <script src="static/scripts/page_links.js?{{ cache_id }}"></script>
+    <script src="static/scripts/index.js?{{ cache_id }}"></script>
+    <script src="static/scripts/footer.js?{{ cache_id }}"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?{{ cache_id }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?{{ cache_id }}">
+    <link rel="stylesheet" type="text/css" href="../styles/index.css?{{ cache_id }}"/>
+    <link rel="icon" type="image/png" href="..static/images/logo.png?{{ cache_id }}"/>
+</head>
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
+	  <div id="api_status"></div>
+    <div class="logo">
+      <img src="/images/logo.png" alt="Logo">
+    </div>
+    <div class="dropdown">
+        <button id="loginBtn" class="dropbtn">Login</button>
+        <div id="loginModal" class="modal">
+            <div class="modal-content animate">
+                <span class="close" title="Close Modal">&times;</span>
+                <form action="/action_page.php" method="post">
+                    <div class="imgcontainer">
+                        <img src="/images/avatar.png" alt="Avatar" class="avatar">
+                    </div>
+		    <div class="container">
+                	<label for="email"><b>Email</b></label>
+                	<input type="email" id="email" placeholder="Enter your email address" required>
+                	<label for="psw"><b>Password</b></label>
+                	<input type="password" placeholder="Enter Password" name="psw" required>
+                	<button type="submit">Login</button>
+                	<label><input type="checkbox" checked="checked" name="remember"> Remember me</label>
+            	   </div>
+            	   <div class="container" style="background-color:#f1f1f1">
+                	<button type="button" id="cancelBtn"  class="cancelbtn">Cancel</button>
+                	<span class="psw">Forgot <a href="https://0.0.0.0:5000/forgot-password">password?</a></span>
+            	   </div>
+              	</form>
+   	 </div>
+</div>
+<button id="signupBtn" class="dropbtn"><a href="http://0.0.0.0:5000/sign-up"></a>Sign up</button>
+<div id="signupModal" class="modal">
+    <div class="modal-content animate">
+        <span class="close" title="Close Modal">&times;</span>
+        <form action="/action_page.php">
+            <div class="container">
+                <h1>Sign Up</h1>
+                <p>Please fill in this form to create an account.</p>
+                <hr>
+
+		<label for="fullname"><b>Full Name</b></label>
+                <input type="text" placeholder="Enter Full Name" name="fullname" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+                <label>
+                    <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
+                </label>
+
+                <p>By creating an account you agree to our <a href="https://0.0.0.0:5000/privacy_terms" style="color:dodgerblue">Terms and Conditions</a>.</p>
+		<div class="clearfix">
+                	<button type="button" id="cancelBtn" class="cancelbtn">Cancel</button>
+                        <button type="submit" class="signupbtn">Sign Up</button>
+                </div>
+                </div>
+        </form>
+      </div>
+    </div>
+</header>
+<div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="http://0.0.0.0:5000/about_us">About us</a>
+      <a href="http://0.0.0.0:5000/translations">Translations</a>
+      <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
+</div>
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+
+<div id="main">
+   <div class="banner">
+       <h1>A world where barriers are broken</h1>
+       <i class="fas fa-globe"></i>
+   </div>
+   <div id="language-container">
+        <div>
+            <i class="fas fa-language"></i>
+            <h2>English</h2>
+            <p>Welcome to our website!</p>
+            <p>Explore our wide range of products and services tailored to meet your needs.</p>
+            <a href="#">Read More</a>
+        </div>
+        <div>
+            <i class="fas fa-language"></i>
+            <h2>Spanish</h2>
+            <p>¡Bienvenido a nuestro sitio web!</p>
+            <p>Explora nuestra amplia gama de productos y servicios diseñados para satisfacer tus necesidades.</p>
+            <a href="#">Leer más</a>
+        </div>
+        <div>
+            <i class="fas fa-language"></i>
+            <h2>French</h2>
+            <p>Bienvenue sur notre site web !</p>
+            <p>Découvrez notre large gamme de produits et services adaptés à vos besoins.</p>
+            <a href="#">Lire la suite</a>
+        </div>
+        </div>
+  </div>
+      <footer class="footer">
+        <div class="quick-links">
+          <h4 class="quick-links-heading">Quick links</h4>
+          <a href="https://0.0.0.0:5000/privacy_terms">Terms of Service</a>
+          <a href="https://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="social-bar">
+          <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="newsletter-form">
+          <div class="subscription-text">
+            <h4 style="color: black">Subscribe to our newsletter for updates</h4>
+            <input type="checkbox" id="daily-newsletter" name="daily-newsletter">
+            <label for="daily-newsletter">Receive daily newsletter</label>
+          </div>
+          <input type="email" class="newsletter-input" placeholder="Your email address">
+          <button class="newsletter-submit" type="submit">Subscribe</button>
+        </div>
+        <div class="copyright">
+            © 2023 Universal Translation Service. All rights reserved.</p>
+        </div>
+  </footer>
+  </body>
+</html>

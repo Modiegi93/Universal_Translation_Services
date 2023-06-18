@@ -3,9 +3,11 @@
 
 from flask import Flask, request, jsonify, abort
 from googletrans import Translator
-from translator import storage, TranslationModel
+from translator import storage
+from translator.translation_model import TranslationModel, Base
+from api.v1.views import app_views
 
-@app_views.route('/translation_search', methods=['POST'])
+@app_views.route('/search', methods=['POST'], strict_slashes=False)
 def translation_search():
     if not request.is_json:
         abort(400, 'Not a JSON')

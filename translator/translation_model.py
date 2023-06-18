@@ -59,6 +59,18 @@ class TranslationModel:
         translator.storage.save()
 
     def to_dict(self):
+        time = "%Y-%m-%dT%H:%M:%S.%f"
+        new_dict = {}
+        for key, value in self.__dict__.items():
+            if key == "_sa_instance_state":
+                continue
+            if key == "created_at" or key == "updated_at":
+                value = value.strftime(time)
+            new_dict[key] = value
+        new_dict["__class__"] = self.__class__.__name__
+        return new_dict
+
+        """def to_dict(self):
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
@@ -69,7 +81,19 @@ class TranslationModel:
             del new_dict["_instance_translation"]
         if "password" in new_dict and getenv("ULT_TYPE_STORAGE") == "db":
             del new_dict["password"]
-        return new_dict
+        return new_dict"""
+
+        """new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
+        new_dict["__class__"] = self.__class__.__name__
+        if "_instance_translation" in new_dict:
+            del new_dict["_instance_translation"]
+        if "password" in new_dict and getenv("ULT_TYPE_STORAGE") == "db":
+            del new_dict["password"]
+        return new_dict"""
 
     def delete(self):
         translator.storage.delete(self)

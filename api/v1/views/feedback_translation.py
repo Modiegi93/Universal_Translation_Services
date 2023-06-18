@@ -9,23 +9,22 @@ from translator.text import TextTranslation
 from translator.document import DocumentTranslation
 from translator.image import ImageTranslation
 from translator.website import WebsiteTranslation
+from translator.translation_model import TranslationModel,Base
 
-@app_views.route('/translations/<translation_id>/feedbacks', methods=['GET'],
+@app_views.route('/users/<user_id>/feedbacks', methods=['GET'],
                  strict_slashes=False)
-def all_feedbacks(translation_id):
+def all_feedbacks(user_id):
     """get list of all feedbacks"""
-     all_feedbacks = []
-    if not storage.get('TextTranslation', 'DocumentTranslation',
-                       'WebsiteTranslation', 'ImageTranslation',
-                       'translation_id'):
+    all_feedbacks = []
+    if not storage.get('User', user_id):
         abort(404)
-    for review in storage.all('FeedBack').values():
-        if translation_id == feedback.to_dict()['translation_id']:
+    for feedback in storage.all('FeedBack').values():
+        if user_id == feedback.to_dict()['user_id']:
             all_feedbacks.append(feedback.to_dict())
     return jsonify(all_feedbacks)
 
 
-@app_views.route('/feedback/<feedback_id>', methods=['GET'],
+@app_views.route('/feedbacks/<feedback_id>', methods=['GET'],
                  strict_slashes=False)
 def retrieve_feedback(feedback_id):
     """ get a single Feedback """
@@ -47,29 +46,27 @@ def delete_feedback(feedback_id):
     abort(404)
 
 
-@app_views.route('/translations/<translation_id>/feedbacks', methods=['POST'],
+@app_views.route('/users/<user_id>/feedbacks', methods=['POST'],
                  strict_slashes=False)
-def create_feedback(translation_id):
+def create_feedback(user_id):
     """ create feedback """
-    feedback_name = request.get_json()
-    if not storage.get('TextTranslation', 'DocumentTranslation',
-                                     'WebsiteTranslation', 'ImageTranslation',
-                                     'translation_id'):
-        abort(404)
-    if not feedback_name:
-        abort(400, {'Not a JSON'})
-    elif 'user_id' not in feedback_name:
-        abort(400, {'Missing user_id'})
-    elif not storage.get('User', feedback_name['user_id']):
-        abort(404)
-    elif 'text' not in feedback_name:
-        abort(400, {'Missing text'})
-    feedback_name['translation_id'] = translation_id
-    new_feedback = FeedBack(**feedback_name)
-    storage.new(new_feedback)
-    storage.save()
-    return new_feedback.to_dict(), 201
+    feedback_data = request.get_json()
+    if not feedback_data:
+        abort(400, {'error': 'Not a JSON'})
+    if 'text' not in feedback_data:
+        abort(400, {'error':'Missing text'})
 
+    user = storage.get('User', user_id)
+    if not user:
+        abort(404)
+    
+    feedback = FeedBack()
+    feedback.user_id = user.id
+    feedback.text = feedback_data['text']
+    storage.new(feedback)
+    storage.save()
+
+    return jsonify(feedback.to_dict()), 201
 
 @app_views.route('/feedbacks/<feedback_id>', methods=['PUT'],
                  strict_slashes=False)
@@ -84,6 +81,6 @@ def update_feedback(feedback_id):
     for key, value in update_attr.items():
         if key not in ['id', 'user_id', 'translation_id', 'created_at',
                        'updated_at']:
-            setattr(my_review, key, value)
+            setattr(my_feedback, key, value)
     storage.save()
     return my_feedback.to_dict()

@@ -10,7 +10,7 @@ from api.v1.views.images import *
 from api.v1.views.websites import *
 from api.v1.views.feedback_translation import *
 from api.v1.views.translation_search import *
-from api.v1.views.translation_history import *
+from api.v1.views.language_support import *
 from api.v1.views.users import *
 from api.v1.views.index import *
 from api.v1.views.translation_settings import *

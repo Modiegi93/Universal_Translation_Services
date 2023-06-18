@@ -1,86 +1,87 @@
 #!/usr/bin/python3
 """Text translations views"""
+import os
+import requests
 from api.v1.views import app_views
-from flask import Flask jsonify, abort, request
-from translator import storage, TextTranslation
-from googletrans import Translator, LANGUAGES
+from flask import Flask, jsonify, abort, request
+from translator import storage
+from langdetect import detect
+from translator.translation_model import TranslationModel, Base
+from translator.text import TextTranslation
 
-app.config['UPLOAD_FOLDER'] = 'uploads'
+RAPIDAPI_API_KEY = 'f94d683e50mshe579b860a6a88cap1ebc29jsna3f5e765683f'
+RAPIDAPI_HOST = 'google-translate1.p.rapidapi.com'
 
-translator = Translator(service_urls=['translate.google.com'])
 
-# Get available languages
-available_languages = {code: name for code, name in LANGUAGES.items()}
+@app_views.route('/texts', methods=['GET'], strict_slashes=False)
+def get_texts():
+    """Get all text translations"""
+    translations = storage.all(TextTranslation)
+    translation_list = [translation.to_dict() for translation in translations.values()]
+    return jsonify({'translations': translation_list})
 
-@app.route('/translations/<text_translations>', methods=['POST'])
-def translate_text():
-    # Check if text is included in the request
-    if 'text' not in request.form:
-        abort(400, 'No text provided')
+@app_views.route('/texts/<text_id>', methods=['GET'],
+                 strict_slashes=False)
+def get_text(text_id):
+    """Get specific text translations"""
+    translation = storage.get(TextTranslation, text_id)
+    if not translation:
+        abort(404, 'Text translation not found')
+    return jsonify({
+        'id': translation.id,
+        'input_text': translation.input_text,
+        'source_lang': translation.source_lang,
+        'target_lang': translation.target_lang,
+        'translated_text': translation.translated_text
+    })
 
-    text = request.form['text']
+@app_views.route('/texts', methods=['POST'], strict_slashes=False)
+def create_text():
+    """Create text translations"""
+    if not request.json or 'text' not in request.json or 'target_lang' not in request.json:
+        abort(400, 'Invalid request')
 
-    # Get the target language from the request
-    target_language = request.form.get('target_language')
+    input_text = request.json['text']
+    target_lang = request.json['target_lang']
 
-    if not target_language:
-        abort(400, 'Target language not specified')
+    headers = {
+        'X-RapidAPI-Key': RAPIDAPI_API_KEY,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-RapidAPI-Host': RAPIDAPI_HOST
+    }
 
-    # Check if the target language is valid
-    if target_language not in available_languages:
-        abort(400, 'Invalid target language')
+    payload = {
+        'q': input_text,
+        'target': target_lang
+    }
 
-    # Detect the source language of the text
-    detection_result = translator.detect(text)
-    source_language = detection_result.lang
-
-    # Translate the text to the target language
     try:
-        translation = translate_text_string(text, source_language, target_language)
-        store_text_translation(text, source_language, target_language, translation)
-        return jsonify({'translation': translation})
+        response = requests.post('https://google-translate1.p.rapidapi.com/language/translate/v2', headers=headers, data=payload)
+        translation = response.json()['data']['translations'][0]['translatedText']
+        
+        # Detect source language
+        source_lang = detect(input_text)
+
+        # Store the translation in the database
+        new_translation = TextTranslation(input_text=input_text,
+                                          target_lang=target_lang,
+                                          source_lang=source_lang,
+                                          translated_text=translation)
+        storage.new(new_translation)
+        storage.save()
+
+        return jsonify({'translated_text': translation}), 200
     except Exception as e:
         abort(500, str(e))
 
-def translate_text_string(text, source_language, target_language):
-    # Translate the text using the Google Translate library
-    result = translator.translate(text, src=source_language, dest=target_language)
-    translated_text = result.text
+@app_views.route('/texts/<text_id>', methods=['DELETE'], strict_slashes=False)
+def delete_text_translation(text_id):
+    """Delete stored text translations"""
+    translation = storage.get(TextTranslation, text_id)
+    if not translation:
+        abort(404, 'Text translation not found')
 
-    return translated_text
-
-def store_text_translation(text, source_language, target_language, translated_text):
-    # Create a new TextTranslation instance
-    new_translation = TextTranslation(text=text,
-                                      source_language=source_language,
-                                      target_language=target_language,
-                                      translated_text=translated_text)
-
-    # Add the translation to the database
-    storage.new(new_translation)
+    storage.delete(translation)
     storage.save()
 
-    # Store the translation in file storage
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], f'{new_translation.id}.txt')
-    with open(file_path, 'w') as f:
-        f.write(translated_text)
-
-@app.route('/translations/<int:translation_id>', methods=['GET'])
-def get_translation(translation_id):
-    # Retrieve the translation from the database
-    translation = session.query(TextTranslation).get(translation_id)
-    if not translation:
-        abort(404, 'Translation not found')
-
-     # Retrieve the translation from file storage
-    filename = secure_filename(f'{translation.id}.txt')
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    with open(file_path, 'r') as f:
-        translated_text = f.read()
-
-    translation.translated_text = translated_text
-    return jsonify({'translation': translation.to_dict()})
-
-@app.route('/translations/<language_supported>', methods=['GET'])
-def get_languages():
-    return jsonify({'languages': available_languages})
+    return jsonify({'message': 'Text translation deleted'}), 200

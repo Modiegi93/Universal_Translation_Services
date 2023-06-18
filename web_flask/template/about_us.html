@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="styles/about_us.css"/>
+  <link rel="shortcut icon" href="images/png"/>
+</head>
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
+    <div class="logo">
+      <img src="/images/logo.png" alt="Logo">
+    </div>
+    <div class="header-container" style="display: flex; align-items: center;">
+      <div class="search-container" style="margin-right: 10px;">
+        <form action="/action_page.php">
+          <input class="search-input" type="text" placeholder="Search...">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      <div class="dropdown">
+  	<button onclick="myFunction()" class="dropbtn">My Account</button>
+  	<div id="myDropdown" class="dropdown-content">
+    		<a href="http://0.0.0.0:5000/my_account">My Account</a>
+    		<a href="http://0.0.0.0:5000/logout">Logout</a>		
+  	</div>
+    </div>
+    </div>
+  </div> 
+  </header>
+  <div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="http://0.0.0.0:5000/about_us">About us</a>
+    <a href="http://0.0.0.0:5000/translations">Translations</a>
+    <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
+  </div>
+  <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
+  <div id="main">
+<div class="about-section">
+  <h1>About Us</h1>
+  <p>A language translation  service that provides users with quick and accurate translations of text, documents, images and websites i
+  <p>A world without language limitations </p>
+</div>
+
+<h2 style="text-align:center">Our Team</h2>
+<div class="row">
+  <div class="column">
+    <div class="card">
+      <img src="/images/mathapelo.png" alt="Mathapelo" style="width:100%">
+      <div class="container">
+        <h2>Mathapelo Mphahlele</h2>
+        <p class="title">Full Stack Developer</p>
+        <p>An experienced developer whom possess strong problem-solving and analytical skills.</p>
+        <p>mathapelo@ult.com</p>
+        <p><button class="button">Contact</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="/images/profile3.png" alt="Chris" style="width:100%">
+      <div class="container">
+        <h2>Chris Ross</h2>
+        <p class="title">Managing Director</p>
+        <p>Responsible for overseeing and leading the operations and strategic direction of the company.</p>
+        <p>chris@ult.com</p>
+        <p><button class="button">Contact</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <img src="/images/profile2.png" alt="Asante" style="width:100%">
+      <div class="container">
+        <h2>Asante Blossom</h2>
+        <p class="title">Project Manager</p>
+        <p>Responsible for developing project plans & managing deliverables aaccording to the project plan.</p>
+        <p>asante@ult.com</p>
+        <p><button class="button">Contact</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="quick-links">
+    <h4 class="quick-links-heading">Quick links</h4>
+    <a href="https://0.0.0.0:5000/privacy_terms">Terms of Service</a>
+    <a href="https://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
+    <a href="#">Contact</a>
+  </div>
+  <div class="social-bar">
+    <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+  <div class="newsletter-form">
+    <div class="subscription-text">
+      <h4 style="color: black">Subscribe to our newsletter for updates</h4>
+      <input type="checkbox" id="daily-newsletter" name="daily-newsletter">
+      <label for="daily-newsletter">Receive daily newsletter</label>
+    </div>
+    <input type="email" class="newsletter-input" placeholder="Your email address">
+    <button class="newsletter-submit" type="submit">Subscribe</button>
+  </div>
+  <div class="copyright">
+      © 2023 Universal Translation Service. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>

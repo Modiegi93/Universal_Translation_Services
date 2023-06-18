@@ -1,79 +1,83 @@
 #!/usr/bin/python3
 """Website translations views"""
 from flask import Flask, jsonify, request, abort
-from googletrans import Translator, LANGUAGES
 from urllib.parse import urlparse
 import requests
+from langid import classify
 from bs4 import BeautifulSoup
+from translator import storage
+from api.v1.views import app_views
+from translator.translation_model import TranslationModel, Base
+from translator.website import WebsiteTranslation
 
-translator = Translator(service_urls=['translate.google.com'])
+RAPIDAPI_API_KEY = 'f94d683e50mshe579b860a6a88cap1ebc29jsna3f5e765683f'
+RAPIDAPI_HOST = 'rapid-translate-multi-traduction.p.rapidapi.com'
 
-available_languages = {code: name for code, name in LANGUAGES.items()}
+@app_views.route('/websites', methods=['POST'], strict_slashes=False)
+def create_website():
+    """Create a new website translation"""
+    if not request.json or 'url' not in request.json or 'target_lang' not in request.json:
+        abort(400, 'Invalid request')
 
-@app.route('/translations/<website_translations> ', methods=['POST'])
-def translate_website():
-    # Get the website URL and target language from the request
-    website_url = request.form.get('website_url')
-    target_language = request.form.get('target_language')
+    url = request.json['url']
+    target_lang = request.json['target_lang']
 
-    if not website_url:
-    abort(400, 'Website URL not specified')
+    # Perform translation using Rapid Translate Multi Traduction API
+    headers = {
+        'X-RapidAPI-Key': RAPIDAPI_API_KEY,
+        'X-RapidAPI-Host': RAPIDAPI_HOST
+    }
 
-    if not target_language:
-        abort(400, 'Target language not specified')
+    payload = {
+        'url': url,
+        'target_lang': target_lang
+    }
 
-    # Check if the target language is valid
-    if target_language not in available_languages:
-        abort(400, 'Invalid target language')
+    response = requests.post('https://rapid-translate-multi-traduction.p.rapidapi.com/translate',
+                             headers=headers, json=payload)
 
-    # Translate the website
-    try:
-        translation = translate_website_content(website_url, target_language)
-        return jsonify({'translation': translation.to_dict()})
-    except Exception as e:
-        abort(500, str(e))
+    if response.status_code == 200:
+        translated_text = response.json().get('translated_text')
+        source_lang = translation_data.get('source_lang')
+        # Store the translation in the database
+        translation = WebsiteTranslation(url=url, target_lang=target_lang,
+                                         source_lang=source_lang,
+                                         translated_text=translated_text)
+        storage.new(translation)
+        storage.save()
+        return jsonify({'website_id': translation.id}), 201
+    else:
+        abort(response.status_code, 'Translation failed')
 
-def translate_website_content(website_url, target_language):
-    # Fetch the HTML content from the website
-    response = requests.get(website_url)
-    if response.status_code != 200:
-        abort(500, 'Failed to fetch website content')
-    html_content = response.text
+@app_views.route('/websites', methods=['GET'], strict_slashes=False)
+def get_websites():
+    """Get all website translations"""
+    translations = storage.all(WebsiteTranslation)
+    website_list = [translation.to_dict() for translation in translations.values()]
+    return jsonify({'translations': website_list})
 
-    # Detect the source language of the HTML content
-    detection_result = translator.detect(html_content)
-    source_language = detection_result.lang
+@app_views.route('/websites/<website_id>', methods=['GET'], strict_slashes=False)
+def get_website(website_id):
+    """Get specific website translation"""
+    translation = storage.get(WebsiteTranslation, website_id)
+    if not translation:
+        abort(404, 'Website translation not found')
+    return jsonify({
+        'id': translation.id,
+        'input_text': translation.input_text,
+        'source_lang': translation.source_lang,
+        'target_lang': translation.target_lang,
+        'translated_text': translation.translated_text
+    })
+    
+@app_views.route('/websites/<website_id>', methods=['DELETE'], strict_slashes=False)
+def delete_website(website_id):
+    """Delete stored website translations"""
+    translation = storage.get(WebsiteTranslation, website_id)
+    if not translation:
+        abort(404, 'Website translation not found')
 
-    # Translate the HTML content to the target language
-    translated_content = translate_text_string(html_content, source_language,
-                                               target_language)
-
-    # Create a new WebsiteTranslation instance
-    new_translation = WebsiteTranslation(url=website_url,
-                                         source_language=source_language,
-                                         target_language=target_language,
-                                         translated_content=translated_content)
-
-    # Add the translation to the database
-    storage.new(new_translation)
+    storage.delete(translation)
     storage.save()
 
-    return new_translation
-
-def translate_text_string(text, source_language, target_language):
-    # Translate the text using the Google Translate library
-    result = translator.translate(text, src=source_language, dest=target_language)
-    translated_text = result.text
-    return translated_text
-
-@app.route('/translations/int:translation_id', methods=['GET'])
-def get_translation(translation_id):
-    # Retrieve the translation from the database
-    translation = session.query(WebsiteTranslation).get(translation_id)
-    if not translation:
-        abort(404, 'Translation not found')
-    return jsonify({'translation': translation.to_dict()})
-
-@app.route('/translations/<language_supported>', methods=['GET'])
-def get_languages():
-    return jsonify({'languages': available_languages})
+    return jsonify({'message': 'Website translation deleted'}), 200

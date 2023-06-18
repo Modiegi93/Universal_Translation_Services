@@ -1,23 +1,23 @@
 #!/usr/bin/python3
 from flask import Flask, jsonify, request, abort
 import translator
-from translator import storage, LanguageSupport
+from translator import storage
+from translator.language import LanguageSupport
 from googletrans import LANGUAGES
-
-app = Flask(__name__)
+from api.v1.views import app_views
 
 translation_settings = {
     'target_languages': [],
     'default_language': ''
 }
 
-app.route('/settings', methods=['GET'], strict_slashes=False)
+@app_views.route('/settings', methods=['GET'], strict_slashes=False)
 def get_translation_settings():
     """Get the translation settings"""
     translation_settings = storage.get_translation_settings()
     return jsonify(translation_settings)
 
-@app.route('/settings', methods=['POST'], strict_slashes=False)
+@app_views.route('/settings', methods=['POST'], strict_slashes=False)
 def update_translation_settings():
     """Update the translation settings"""
     data = request.get_json()

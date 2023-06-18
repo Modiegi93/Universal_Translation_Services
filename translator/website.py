@@ -16,17 +16,17 @@ class WebsiteTranslation(TranslationModel, Base):
     if translator.storage_type == "db":
         __tablename__ = "website_translations"
         id = Column(String(60), primary_key=True)
-        website_url = Column(String(4500), nullable=False)
+        input_text = Column(Text, nullable=False)
         source_lang = Column(String(50), nullable=False)
         target_lang = Column(String(50), nullable=False)
-        translated_html = Column(Text, nullable=False)
+        translated_text = Column(Text, nullable=False)
 
     else:
         id = ""
-        website_url = ""
+        input_text = ""
         source_lang = ""
         target_lang = ""
-        translated_html = ""
+        translated_text = ""
 
     def __init__(self, *args, **kwargs):
         """initializes all translations"""
