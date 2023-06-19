@@ -1,0 +1,99 @@
+[build]
+  command = "python3 -m api.v1.app && python3 web_dynamic.render_templates.py"
+  publish = "web_dynamic/templates"
+
+
+[[redirects]]
+  from = "/"
+  to = "/web_dynamic/templates/index.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/" }
+
+[[redirects]]
+  from = "/about_us"
+  to = "/web_dynamic/templates/about_us.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/about_us" }
+
+[[redirects]]
+  from = "/translations"
+  to = "/web_dynamic/templates/translations.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/translations" }
+
+[[redirects]]
+  from = "/privacy_terms"
+  to = "/web_dynamic/templates/privacy_terms.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/privacy_terms" }
+
+[[redirects]]
+  from = "/my_account"
+  to = "/web_dynamic/templates/my_account.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/my_account" }
+
+[[redirects]]
+  from = "/sign_in"
+  to = "/web_dynamic/templates/sign_in.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/sign_in" }
+
+[[redirects]]
+  from = "/login"
+  to = "/web_dynamic/templates/index.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/login" }
+
+[[redirects]]
+  from = "/sign_up_basic"
+  to = "/web_dynamic/templates/payment.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/sign_up_basic" }
+
+[[redirects]]
+  from = "/sign_up_pro"
+  to = "/web_dynamic/templates/payment.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/sign_up_pro" }
+
+[[redirects]]
+  from = "/sign_up_premium"
+  to = "/web_dynamic/templates/payment.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/sign_up_premium" }
+
+[[redirects]]
+  from = "/static/styles/*"
+  to = "/web_dynamic/static/css/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/static/scripts/*"
+  to = "/web_dynamic/static/scripts/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/static/images/*"
+  to = "/web_dynamic/static/images/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/v1/*"
+  to = "http://localhost:5000/:splat"
+  status = 200
+  force = true
+  headers = { X-Proxy-Pass = "/api/v1" }
