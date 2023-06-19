@@ -1,7 +1,12 @@
 [build]
-  command = "python3 -m api.v1.app && python3 web_dynamic.render_templates.py"
+  command = "pip install -r requirements.txt && gunicorn -w 3 api.v1.app:app --bind 0.0.0.0:${PORT:-5000} && python3 render_templates.py"
   publish = "web_dynamic/templates"
 
+[build.environment]
+  PYTHON_VERSION = "3.8"
+
+[build.processing]
+  skip_processing = true
 
 [[redirects]]
   from = "/"
@@ -23,6 +28,42 @@
   status = 200
   force = true
   headers = { X-Proxy-Route = "/translations" }
+
+[[redirects]]
+  from = "/sign_up"
+  to = "/web_dynamic/templates/index.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/sign-up" }
+
+[[redirects]]
+  from = "/subscribe"
+  to = "/web_dynamic/templates/subscription_success.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/subscribe" }
+
+[[redirects]]
+  from = "/my_account/translations_history"
+  to = "/web_dynamic/templates/translations_history.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/translations_history" }
+
+[[redirects]]
+  from = "/my_account/settings"
+  to = "/web_dynamic/templates/settings.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/settings" }
+
+[[redirects]]
+  from = "/translations/languages"
+  to = "/web_dynamic/templates/languages.html"
+  status = 200
+  force = true
+  headers = { X-Proxy-Route = "/languages" }
+
 
 [[redirects]]
   from = "/privacy_terms"
@@ -53,21 +94,21 @@
   headers = { X-Proxy-Route = "/login" }
 
 [[redirects]]
-  from = "/sign_up_basic"
+  from = "/my_account/sign_up_basic"
   to = "/web_dynamic/templates/payment.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign_up_basic" }
 
 [[redirects]]
-  from = "/sign_up_pro"
+  from = "/my_account/sign_up_pro"
   to = "/web_dynamic/templates/payment.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign_up_pro" }
 
 [[redirects]]
-  from = "/sign_up_premium"
+  from = "/my_account/sign_up_premium"
   to = "/web_dynamic/templates/payment.html"
   status = 200
   force = true

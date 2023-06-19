@@ -120,7 +120,7 @@ def get_translations():
     translations = storage.all(TextTranslation, DocumentTranslation,
                                    ImageTranslation, WebsiteTranslation)
 
-    for text_data = []
+    text_data = []
     for trans in text_translation:
         translation_entry = {
                 'created_at': translation.created_at,
@@ -129,7 +129,7 @@ def get_translations():
                 'target_lang': translation.target_lang,
                 'type': get_translation_type(translation)
         }
-        translation_data.append(translation_entry)
+        text_data.append(translation_entry)
 
         return render_template('translation_history.html',
                                translations=translation_data, cache_id=uuid.uuid4())
