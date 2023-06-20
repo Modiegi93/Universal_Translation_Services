@@ -44,13 +44,13 @@
   headers = { X-Proxy-Route = "/subscribe" }
 
 [[redirects]]
-  from = "/my_account"
+  from = "/my_account/translations_history"
   to = "/translations_history.html"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/my_account"
+  from = "/my_account/settings"
   to = "/settings.html"
   status = 200
   force = true
@@ -98,20 +98,20 @@
   headers = { X-Proxy-Route = "/payment"}
 
 [[redirects]]
-  from = "/styles/*"
-  to = "/styles/*.css/:splat"
+  from = "/styles/:splat"
+  to = "/styles/*/:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/scripts/*"
-  to = "/scripts/*.js:splat"
+  from = "/scripts/:splat"
+  to = "/scripts/:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/images/*"
-  to = "/images/*.png:splat"
+  from = "/images/:splat"
+  to = "/images/:splat"
   status = 200
   force = true
 
