@@ -11,7 +11,7 @@ import sqlalchemy
 from sqlalchemy import Column, String, ForeignKey, Text
 
 
-class Subscription(TranslationModel, Base):
+class Subscriber(TranslationModel, Base):
 
     if translator.storage_type == "db":
         __tablename__ = "subscribers"
