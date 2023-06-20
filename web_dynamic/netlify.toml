@@ -101,20 +101,20 @@
   headers = { X-Proxy-Route = "/payment"}
 
 [[redirects]]
-  from = "/styles/:splat"
-  to = "/styles/*/:splat"
+  from = "/styles/"
+  to = "/styles/*.css:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/scripts/:splat"
-  to = "/scripts/:splat"
+  from = "/scripts/"
+  to = "/scripts/*.js:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/images/:splat"
-  to = "/images/:splat"
+  from = "/images/"
+  to = "/images/*.png:splat"
   status = 200
   force = true
 
