@@ -16,28 +16,28 @@
   headers = { X-Proxy-Route = "/" }
 
 [[redirects]]
-  from = "/*"
+  from = "/about_us"
   to = "/about_us.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/about_us" }
 
 [[redirects]]
-  from = "/*"
+  from = "/translations"
   to = "/translations.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/translations" }
 
 [[redirects]]
-  from = "/*"
+  from = "/sign-up"
   to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign-up" }
 
 [[redirects]]
-  from = "/*"
+  from = "/subscribe"
   to = "/subscription_success.html"
   status = 200
   force = true
@@ -48,71 +48,54 @@
   to = "/translations_history.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/translations_history" }
 
 [[redirects]]
   from = "/my_account"
   to = "/settings.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/settings" }
 
 [[redirects]]
   from = "/translations"
   to = "/languages.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/languages" }
 
 
 [[redirects]]
-  from = "/*"
+  from = "/privacy_terms"
   to = "/privacy_terms.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/privacy_terms" }
 
 [[redirects]]
-  from = "/*"
+  from = "/my_account"
   to = "/my_account.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/my_account" }
 
 [[redirects]]
-  from = "/*"
+  from = "/sign_in"
   to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign_in" }
 
 [[redirects]]
-  from = "/*"
+  from = "/login"
   to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/login" }
 
 [[redirects]]
-  from = "/my_account"
+  from = "/my_account/payment"
   to = "/payment.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/signup_basic" }
-
-[[redirects]]
-  from = "/my_account
-  to = "/payment.html"
-  status = 200
-  force = true
-  headers = { X-Proxy-Route = "/signup_pro" }
-
-[[redirects]]
-  from = "/my_account"
-  to = "/payment.html"
-  status = 200
-  force = true
-  headers = { X-Proxy-Route = "/signup_premium" }
+  headers = { X-Proxy-Route = "/payment"}
 
 [[redirects]]
   from = "/styles/*"
