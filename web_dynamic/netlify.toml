@@ -16,50 +16,53 @@
   headers = { X-Proxy-Route = "/" }
 
 [[redirects]]
-  from = "/about_us"
+  from = "/*"
   to = "/about_us.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/about_us" }
 
 [[redirects]]
-  from = "/translations"
+  from = "/*"
   to = "/translations.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/translations" }
 
 [[redirects]]
-  from = "/sign-up"
+  from = "/*"
   to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign-up" }
 
 [[redirects]]
-  from = "/subscribe"
+  from = "/*"
   to = "/subscription_success.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/subscribe" }
 
 [[redirects]]
-  from = "/my_account/translations_history"
+  from = "/my_account"
   to = "/translations_history.html"
   status = 200
   force = true
+  headers = { X-Proxy-Route = "/translations_history" }
 
 [[redirects]]
-  from = "/my_account/settings"
+  from = "/my_account/"
   to = "/settings.html"
   status = 200
   force = true
+  headers = { X-Proxy-Route = "/settings" }
 
 [[redirects]]
-  from = "/languages"
+  from = "/translations"
   to = "/languages.html"
   status = 200
   force = true
+  headers = { X-Proxy-Route = "/translations" }
 
 
 [[redirects]]
