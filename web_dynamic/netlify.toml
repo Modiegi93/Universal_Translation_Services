@@ -56,7 +56,7 @@
   force = true
 
 [[redirects]]
-  from = "/translations"
+  from = "/languages"
   to = "/languages.html"
   status = 200
   force = true
@@ -91,7 +91,7 @@
   headers = { X-Proxy-Route = "/login" }
 
 [[redirects]]
-  from = "/my_account/payment"
+  from = "/payment"
   to = "/payment.html"
   status = 200
   force = true
