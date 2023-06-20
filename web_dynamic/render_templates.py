@@ -26,7 +26,8 @@ from os import getenv
 import uuid
 from os import environ
 from translator import storage
-from translator.subsriber import Subscriber
+from translator.subscriber import Subscriber
+from translator.subscription import Subscription
 from translator import storage
 from translator.settings import Settings
 
