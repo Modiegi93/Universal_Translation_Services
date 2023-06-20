@@ -205,13 +205,13 @@ def save_settings():
 
 
 
-@app.route('/supported_languages', strict_slashes)
+@app.route('/supported_languages', strict_slashes=False)
 def get_supported_languages():
     supported_languages = {code: name for code, name in
                            sorted(LANGUAGES.items(), key=lambda x: x[1])}
     return jsonify(supported_languages)
 
-@app.route('/languages', strict_slashes)
+@app.route('/languages', strict_slashes=False)
 def render_language_selector():
     supported_languages = {code: name for code, name in sorted(LANGUAGES.items(), key=lambda x: x[1])}
     return render_template('languages.html', supported_languages=supported_languages,
