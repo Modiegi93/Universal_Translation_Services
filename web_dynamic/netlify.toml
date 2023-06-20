@@ -10,125 +10,125 @@
 
 [[redirects]]
   from = "/"
-  to = "/web_dynamic/templates/index.html"
+  to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/" }
 
 [[redirects]]
-  from = "/about_us"
-  to = "/web_dynamic/templates/about_us.html"
+  from = "/*"
+  to = "/about_us.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/about_us" }
 
 [[redirects]]
-  from = "/translations"
-  to = "/web_dynamic/templates/translations.html"
+  from = "/*"
+  to = "/translations.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/translations" }
 
 [[redirects]]
-  from = "/sign_up"
-  to = "/web_dynamic/templates/index.html"
+  from = "/*"
+  to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign-up" }
 
 [[redirects]]
-  from = "/subscribe"
-  to = "/web_dynamic/templates/subscription_success.html"
+  from = "/*"
+  to = "/subscription_success.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/subscribe" }
 
 [[redirects]]
-  from = "/my_account/translations_history"
-  to = "/web_dynamic/templates/translations_history.html"
+  from = "/my_account"
+  to = "/translations_history.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/translations_history" }
 
 [[redirects]]
-  from = "/my_account/settings"
-  to = "/web_dynamic/templates/settings.html"
+  from = "/my_account"
+  to = "/settings.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/settings" }
 
 [[redirects]]
-  from = "/translations/languages"
-  to = "/web_dynamic/templates/languages.html"
+  from = "/translations"
+  to = "/languages.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/languages" }
 
 
 [[redirects]]
-  from = "/privacy_terms"
-  to = "/web_dynamic/templates/privacy_terms.html"
+  from = "/*"
+  to = "/privacy_terms.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/privacy_terms" }
 
 [[redirects]]
-  from = "/my_account"
-  to = "/web_dynamic/templates/my_account.html"
+  from = "/*"
+  to = "/my_account.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/my_account" }
 
 [[redirects]]
-  from = "/sign_in"
-  to = "/web_dynamic/templates/sign_in.html"
+  from = "/*"
+  to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/sign_in" }
 
 [[redirects]]
-  from = "/login"
-  to = "/web_dynamic/templates/index.html"
+  from = "/*"
+  to = "/index.html"
   status = 200
   force = true
   headers = { X-Proxy-Route = "/login" }
 
 [[redirects]]
-  from = "/my_account/sign_up_basic"
-  to = "/web_dynamic/templates/payment.html"
+  from = "/my_account"
+  to = "/payment.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/sign_up_basic" }
+  headers = { X-Proxy-Route = "/signup_basic" }
 
 [[redirects]]
-  from = "/my_account/sign_up_pro"
-  to = "/web_dynamic/templates/payment.html"
+  from = "/my_account
+  to = "/payment.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/sign_up_pro" }
+  headers = { X-Proxy-Route = "/signup_pro" }
 
 [[redirects]]
-  from = "/my_account/sign_up_premium"
-  to = "/web_dynamic/templates/payment.html"
+  from = "/my_account"
+  to = "/payment.html"
   status = 200
   force = true
-  headers = { X-Proxy-Route = "/sign_up_premium" }
+  headers = { X-Proxy-Route = "/signup_premium" }
 
 [[redirects]]
-  from = "/static/styles/*"
-  to = "/web_dynamic/static/css/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/static/scripts/*"
-  to = "/web_dynamic/static/scripts/:splat"
+  from = "/styles/*"
+  to = "/styles/*.css/:splat"
   status = 200
   force = true
 
 [[redirects]]
-  from = "/static/images/*"
-  to = "/web_dynamic/static/images/:splat"
+  from = "/scripts/*"
+  to = "/scripts/*.js:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/images/*"
+  to = "/images/*.png:splat"
   status = 200
   force = true
 
