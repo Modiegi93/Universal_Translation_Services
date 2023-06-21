@@ -1,0 +1,384 @@
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+.header {
+    display: flex;
+    background-color: lightgrey;
+    padding: 10px;
+
+}
+
+.dropbtn {
+  background-color:rgb(54, 123, 180);
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: rgb(20, 68, 100);
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(20, 68, 100);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: rgb(54, 123, 180);
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+input[type=text], input[type=email], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* Extra styles for the cancel button */
+.container {
+    padding: 16px;
+}
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom a
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 500px;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+.modal .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Styles for close button hover effect */
+    .modal .close:hover {
+      color: #000;
+    }
+
+    /* Styles for form elements */
+    .modal .container {
+      padding: 16px;
+    }
+
+    .modal input[type="text"],
+    .modal input[type="password"],
+    .modal input[type="email"],
+    .modal input[type="fullname"] {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .modal button {
+      background-color: rgb(54, 123, 180);
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .modal button.cancelbtn {
+      background-color: #f44336;
+    }
+
+    .modal .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 600px) {
+      .modal .modal-content {
+        margin: 30% auto;
+        width: 90%;
+      }
+    }
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 450px) {
+  span.psw {
+     display: block;
+     float: none;
+
+  }
+
+  @media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;} 
+  }
+
+  .cancelbtn {
+     width: 100%;
+  }
+}
+
+/* Styles for the language translation container */
+#language-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 20px;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Language icon styles */
+    #language-container i {
+      font-size: 48px;
+      color: #333;
+    }
+
+    /* Language title styles */
+    #language-container h2 {
+      font-size: 24px;
+      margin: 0;
+      color: #333;
+    }
+
+    /* Language description styles */
+    #language-container p {
+      margin: 10px 0;
+      color: #777;
+    }
+
+    /* Language link styles */
+    #language-container a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    /* Responsive styles */
+    @media screen and (max-width: 600px) {
+      #language-container {
+        grid-template-columns: 1fr;
+      }
+    }
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;} 
+}
+
+/* Big banner styles */
+.banner {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .banner h1 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .banner i {
+      font-size: 48px;
+      color: #333;
+    }
+
+.footer {
+          background-color: #f2f2f2;
+          padding: 20px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          align-items: center;
+      }
+      /* Quick links styles */
+      .quick-links {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+      .quick-links-heading {
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+      .quick-links a {
+          display: inline-block;
+          margin-bottom: 5px;
+          color: #333;
+          text-decoration: none;
+      }
+      /* Social media links styles */
+      .social-bar {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: 10px;
+      }
+      .social-bar a {
+          display: inline-block;
+          margin-right: 10px;
+          color: #333;
+          text-decoration: none;
+      }
+      /* Copyright notice styles */
+      .copyright {
+          text-align: center;
+          margin-top: 10px;
+          color: #666;
+      }
+      /* Newsletter subscription form styles */
+      .newsletter-form {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          margin-top: 10px;
+      }
+      .newsletter-heading {
+          font-weight: bold;
+          margin-bottom: 5px;
+          align-self: flex-end;
+        }
+      .subscription-text {
+          margin-right: 10px;
+          color: #666;
+      }
+      .newsletter-input {
+          padding: 8px;
+          border: none;
+          width: 300px;
+          margin-bottom: 10px;
+      }
+      .newsletter-checkbox {
+          margin-bottom: 10px;
+          align-items: left;
+      }
+      .newsletter-submit {
+          padding: 8px 16px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+      }
+      /* Media queries for responsive design */
+      @media only screen and (max-width: 600px) {
+          .footer {
+              grid-template-columns: 1fr;
+              grid-template-rows: auto;
+              text-align: center;
+          }
+          .quick-links {
+              justify-content: center;
+          }
+          .social-bar {
+              justify-content: center;
+          }
+          .newsletter-form {
+              justify-content: center;
+          }
+          .newsletter-input {
+              margin-left: 0;
+              width: 100%;
+          }
+      }

@@ -1,0 +1,424 @@
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+.header {
+    display: flex;
+    background-color: rgba(211, 211, 211, 0.048);
+    padding: 10px;
+
+}
+
+.search-container {
+    margin-top: 10px;
+    border: non1px solid darkgrey;
+    padding: 10px;
+    border-radius: 5px;
+    align-items: right;
+}
+
+.search-container form {
+  display: flex;
+  align-items: right;
+}
+
+.search-input {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-container button {
+  background: none;
+  border: 1px solid darkgrey;
+  cursor: pointer;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(20, 68, 100);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.dropbtn {
+  background-color:rgb(54, 123, 180);
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: rgb(20, 68, 100);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+    /* The grid: Four equal columns that float next to each other */
+    .column {
+      float: left;
+      width: 25%;
+      padding: 50px;
+      text-align: center;
+      font-size: 25px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .row {
+      display: flex;
+    }
+    .containerTab {
+      padding: 20px;
+      color: black;
+      display: flex;
+      justify-content: space-between;
+      height: 500px;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Placeholder styling */
+    p[contenteditable="true"]:empty::before {
+    content: attr(placeholder);
+    color: black;
+    opacity: 0.5;
+}
+
+/* Translated output styling */
+#translatedOutput {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  min-height: 100px;
+  border: 1px solid #ccc;
+  padding: 5px;
+  resize: vertical;
+  overflow: auto;
+}
+
+/* Button styling */
+.button {
+  background-color: rgb(54, 123, 180);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.button:hover {
+  background-color: rgb(29, 95, 140);
+}
+
+.button:active {
+  background-color: rgb(20, 68, 100);
+}
+
+.button-icon {
+  margin-right: 10px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(20, 68, 100);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: rgb(54, 123, 180);
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+button.detect-button {
+  margin-left: 800px;
+  background-color: rgb(54, 123, 180);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+}
+
+button.detect-button:hover {
+  background-color: rgb(20, 68, 100);
+}
+
+button.translate-button {
+  margin-left: 500px;
+  background-color: rgb(54, 123, 180);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button.translate-button:hover {
+  background-color: rgb(20, 68, 100);
+}
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+.open-button {
+  background-color: rgb(54, 123, 180);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 200px;
+}
+
+/* The feedback popup chat - hidden by default */
+.feedback-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width textarea */
+.form-container p[contenteditable="true"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container p[contenteditable="true"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/send button */
+.form-container .btn {
+  background-color: rgb(29, 95, 140);
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.file-upload-container {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Styles for the file input button */
+        .file-input-button {
+            background-color: rgb(20, 68, 100);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Styles for the file upload description */
+        .file-upload-description {
+            color: grey;
+            font-style: italic;
+            font-size: smaller;
+            margin-left: 10px;
+        }
+
+.footer {
+          background-color: #f2f2f2;
+          padding: 20px;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          align-items: center;
+      }
+      /* Quick links styles */
+      .quick-links {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+      }
+      .quick-links-heading {
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+      .quick-links a {
+          display: inline-block;
+          margin-bottom: 5px;
+          color: #333;
+          text-decoration: none;
+      }
+      /* Social media links styles */
+      .social-bar {
+          display: flex;
+          justify-content: flex-start;
+          margin-top: 10px;
+      }
+      .social-bar a {
+          display: inline-block;
+          margin-right: 10px;
+          color: #333;
+          text-decoration: none;
+      }
+      /* Copyright notice styles */
+      .copyright {
+          text-align: center;
+          margin-top: 10px;
+          color: #666;
+      }
+      /* Newsletter subscription form styles */
+      .newsletter-form {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          margin-top: 10px;
+      }
+      .newsletter-heading {
+          font-weight: bold;
+          margin-bottom: 5px;
+          align-self: flex-end;
+        }
+      .subscription-text {
+          margin-right: 10px;
+          color: #666;
+      }
+      .newsletter-input {
+          padding: 8px;
+          border: none;
+          width: 300px;
+          margin-bottom: 10px;
+      }
+      .newsletter-checkbox {
+          margin-bottom: 10px;
+          align-items: left;
+      }
+      .newsletter-submit {
+          padding: 8px 16px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+      }
+      /* Media queries for responsive design */
+      @media only screen and (max-width: 600px) {
+          .footer {
+              grid-template-columns: 1fr;
+              grid-template-rows: auto;
+              text-align: center;
+          }
+          .quick-links {
+              justify-content: center;
+          }
+          .social-bar {
+              justify-content: center;
+          }
+          .newsletter-form {
+              justify-content: center;
+          }
+          .newsletter-input {
+              margin-left: 0;
+              width: 100%;
+          }
+      }
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;} 
+  }
