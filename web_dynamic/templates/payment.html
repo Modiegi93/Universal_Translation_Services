@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Payment Gateway</title>
+  <link rel="stylesheet" href="/styles/payment.css">
+<style>
+    body {
+  background-color: #f1f1f1;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.col {
+  width: 48%;
+  float: left;
+  margin-right: 4%;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Payment Gateway</h1>
+    <form id="payment-form">
+      <label for="card-number">Card Number</label>
+      <input type="text" id="card-number" placeholder="Enter card number" required>
+      
+      <label for="card-name">Cardholder Name</label>
+      <input type="text" id="card-name" placeholder="Enter cardholder name" required>
+      
+      <div class="row">
+        <div class="col">
+          <label for="expiry-date">Expiry Date</label>
+          <input type="text" id="expiry-date" placeholder="MM/YY" required>
+        </div>
+        <div class="col">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" placeholder="CVV" required>
+        </div>
+      </div>
+      
+      <button type="submit">Pay Now</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#payment-form').submit(function(e) {
+        e.preventDefault();
+
+        // Get the form data
+        var cardNumber = $('#card-number').val();
+        var cardName = $('#card-name').val();
+        var expiryDate = $('#expiry-date').val();
+        var cvv = $('#cvv').val();
+
+        // Perform validation or further processing
+        if (cardNumber && cardName && expiryDate && cvv) {
+          // Payment successful, you can perform further actions here
+          alert('Payment successful!');
+        } else {
+          // Invalid input, show error message or handle accordingly
+          alert('Invalid payment details. Please check your input.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
