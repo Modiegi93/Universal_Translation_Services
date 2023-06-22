@@ -12,6 +12,7 @@ from translator.translation_model import TranslationModel, Base
 from translator.language import LanguageSupport
 from translator.feedback import FeedBack
 from translator.user import User
+from translator.subscription import Subscription
 from os import getenv
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -21,6 +22,7 @@ classes = {"TextTranslation": TextTranslation,
            "DocumentTranslation": DocumentTranslation,
            "ImageTranslation": ImageTranslation,
            "DetectLanguage": DetectLanguage, "FeedBack": FeedBack,
+           "Subscription": Subscription, 
            "LanguageSupport": LanguageSupport, "User": User} 
 
 

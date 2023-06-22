@@ -15,7 +15,7 @@ class FeedBack(TranslationModel, Base):
 
     else:
         user_id = ""
-        feedback = ""
+        text = ""
 
     def __repr__(self):
         """initializes feedback"""

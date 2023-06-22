@@ -3,22 +3,21 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?{{ cache_id }}"></script>
-    <script src="/scripts/general.js?{{ cache_id }}"></script>
-    <script src="/scripts/about_us.js?{{ cache_id }}"></script>
-    <script src="/scripts/page_links.js?{{ cache_id }}"></script>
-    <script src="/scripts/footer.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/general.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/about_us.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/page_links.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/footer.js?{{ cache_id }}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?{{ cache_id }}">
 
-  <link rel="stylesheet" href="/styles/about_us.css?{{ cache_id }}"/>
-  <link rel="shortcut icon" href="/images/png?{{ cache_id }}"/>
+  <link rel="stylesheet" href="../static/styles/about_us.css?{{ cache_id }}"/>
+  <link rel="shortcut icon" href="../static/images/.png?{{ cache_id }}"/>
 </head>
 <body>
   <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
-	  <div id="api_status"></div>
     <div class="logo">
-      <img src="/images/logo.png" alt="Logo">
+      <img src="../static/images/logo.png" alt="Logo">
     </div>
     <div class="header-container" style="display: flex; align-items: center;">
       <div class="search-container" style="margin-right: 10px;">
@@ -30,8 +29,8 @@
       <div class="dropdown">
   	<button onclick="myFunction()" class="dropbtn">My Account</button>
   	<div id="myDropdown" class="dropdown-content">
-    		<a href="http://0.0.0.0:5000/my_account">My Account</a>
-    		<a href="http://0.0.0.0:5000/logout">Logout</a>		
+    		<a href="my_account.html">My Account</a>
+    		<a href="index.html">Logout</a>		
   	</div>
     </div>
     </div>
@@ -39,9 +38,9 @@
   </header>
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="http://0.0.0.0:5000/about_us">About us</a>
-    <a href="http://0.0.0.0:5000/translations">Translations</a>
-    <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
+    <a href="about_us.html">About us</a>
+    <a href="translations.html">Translations</a>
+    <a href="privacy_terms.html">Privacy&Terms</a>
   </div>
   <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
   <div id="main">
@@ -95,9 +94,9 @@
 <footer class="footer">
   <div class="quick-links">
     <h4 class="quick-links-heading">Quick links</h4>
-    <a href="https://0.0.0.0:5000/privacy_terms">Terms of Service</a>
-    <a href="https://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
-    <a href="#">Contact</a>
+    <a href="privacy_terms.html">Terms of Service</a>
+    <a href="privacy_terms.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
   </div>
   <div class="social-bar">
     <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>

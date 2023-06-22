@@ -1,14 +1,17 @@
 #!/usr/bin/python
+"""Templates to render"""
 
-import translator
-import requests
 import json
+import uuid
 from datetime import datetime
+from os import environ
+from os import getenv
+
+from flask import Flask, render_template, request
+from googletrans import LANGUAGES
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from flask import Flask, jsonify
-from flask import render_template, request, render_template
-from googletrans import LANGUAGES
+
 from translator import storage
 from translator.settings import Settings
 from translator.translation_model import TranslationModel, Base
@@ -20,17 +23,8 @@ from translator.detect_language import DetectLanguage
 from translator.language import LanguageSupport
 from translator.feedback import FeedBack
 from translator.user import User
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from os import getenv
-import uuid
-from os import environ
-from translator import storage
-from translator.subscriber import Subscriber
+#from translator.subscriber import Subscriber
 from translator.subscription import Subscription
-from translator import storage
-from translator.settings import Settings
-
 
 app = Flask(__name__)
 
@@ -118,21 +112,36 @@ def privacy_terms():
 @app.route('/translations_history', strict_slashes=False)
 def get_translations():
     """Get all translations history from storage"""
-    translations = storage.all(TextTranslation, DocumentTranslation,
-                                   ImageTranslation, WebsiteTranslation)
+    translations = []
 
-    text_data = []
-    for trans in text_translation:
+    # Retrieve translations from TextTranslation model
+    text_translations = storage.all(TextTranslation)
+    translations.extend(text_translations)
+
+    # Retrieve translations from DocumentTranslation model
+    document_translations = storage.all(DocumentTranslation)
+    translations.extend(document_translations)
+
+    # Retrieve translations from ImageTranslation model
+    image_translations = storage.all(ImageTranslation)
+    translations.extend(image_translations)
+
+    # Retrieve translations from WebsiteTranslation model
+    website_translations = storage.all(WebsiteTranslation)
+    translations.extend(website_translations)
+    
+    translation_data = []
+    for translation in translations:
         translation_entry = {
                 'created_at': translation.created_at,
-                'source_text': translation.input_text,
+                'input_text': translation.input_text,
                 'translated_text': translation.translated_text,
                 'target_lang': translation.target_lang,
                 'type': get_translation_type(translation)
         }
-        text_data.append(translation_entry)
+        translation_data.append(translation_entry)
 
-        return render_template('translation_history.html',
+        return render_template('my_account.html',
                                translations=translation_data, cache_id=uuid.uuid4())
 
 
@@ -156,7 +165,7 @@ def settings():
     supported_languages = {code: name for code, name in LANGUAGES.items()}
 
     # Render the settings template and pass the supported_languages to it
-    return render_template('settings.html', supported_languages=supported_languages,
+    return render_template('my_account.html', supported_languages=supported_languages,
                             cache_id=uuid.uuid4())
 
 def handle_settings():
@@ -179,14 +188,14 @@ def handle_settings():
         save_settings(target_languages, default_language)
 
         # Render the template with the updated settings
-        return render_template('settings.html', translation_settings=settings,
+        return render_template('my_account.html', translation_settings=settings,
                                 cache_id=uuid.uuid4())
     else:
         # Get the settings from the database
         settings = storage.get("Settings")
 
         # Render the template with the current settings
-        return render_template('settings.html', translation_settings=settings,
+        return render_template('my_account.html', translation_settings=settings,
                                cache_id=uuid.uuid4())
 
 
@@ -214,7 +223,7 @@ def get_supported_languages():
 @app.route('/languages', strict_slashes=False)
 def render_language_selector():
     supported_languages = {code: name for code, name in sorted(LANGUAGES.items(), key=lambda x: x[1])}
-    return render_template('languages.html', supported_languages=supported_languages,
+    return render_template('translations.html', supported_languages=supported_languages,
                             cache_id=uuid.uuid4())
 
 

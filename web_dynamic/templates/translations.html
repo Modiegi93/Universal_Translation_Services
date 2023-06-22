@@ -2,11 +2,11 @@
 <html>
 <head>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="/scripts/language.js?{{ cache_id }}"></script>
-  <script src="/scripts/page_links.js?{{ cache_id }}"></script>
-  <script src="/scripts/general.js?{{ cache_id }}"></script>
-  <script src="/scripts/translations.js?{{ cache_id }}"></script>
-  <script src="/scripts/footer.js?{{ cache_id }}"></script>
+  <script src="../static/scripts/language.js?{{ cache_id }}"></script>
+  <script src="../static/scripts/page_links.js?{{ cache_id }}"></script>
+  <script src="../static/scripts/general.js?{{ cache_id }}"></script>
+  <script src="../static/scripts/translations.js?{{ cache_id }}"></script>
+  <script src="../static/scripts/footer.js?{{ cache_id }}"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js?{{ cache_id }}"></script>
@@ -18,26 +18,26 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js?{{ cache_id }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js?{{ cache_id }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.3.0/tesseract.js?{{ cache_id }}"></script>
-  <link rel="stylesheet" type="text/css" href="/styles/translations.css?{{ cache_id }}"/>
-  <link rel="stylesheet" type="image/png" href="/images/logo.png?{{ cache_id }}">
-  </head>
+  <link rel="stylesheet" type="text/css" href="../static/styles/translations.css?{{ cache_id }}"/>
+  <link rel="stylesheet" type="image/png" href="../static/images/logo.png?{{ cache_id }}">
+</head>
 <body>
   <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
     <div class="logo">
-      <img src="/images/logo.png" alt="Logo">
+      <img src="../static/images/logo.png" alt="Logo">
     </div>
     <div class="header-container" style="display: flex; align-items: center;">
       <div class="search-container" style="margin-right: 10px;">
         <form action="/action_page.php">
           <input class="search-input" type="text" placeholder="Search...">
-          <button type="submit"><i class="fa fa-search"></i></button>
+	  <button type="submit"><i class="fa fa-search"><a href="api/v1/search"></a></i></button>
         </form>
       </div>
       <div class="dropdown">
         <button onclick="myFunction()" class="dropbtn">My Account</button>
         <div id="myDropdown" class="dropdown-content">
-          <a href="http://0.0.0.0:5000/my_account">My Account</a>
-          <a href="http://0.0.0.0:5000/logout">Logout</a>		
+          <a href="my_account.html">My Account</a>
+          <a href="index.html">Logout</a>		
         </div>
       </div>
     </div>
@@ -45,9 +45,9 @@
   </header>
   <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="http://0.0.0.0:5000/about_us">About us</a>
-    <a href="http://0.0.0.0:5000/translations">Translations</a>
-    <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
+    <a href="about_us.html">About us</a>
+    <a href="translations.html">Translations</a>
+    <a href="privacy_terms.html">Privacy&Terms</a>
   </div>
   <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
 
@@ -97,7 +97,7 @@
       <select id="languageSelector" onchange="selectLanguage()" style="border: none; background-color: transparent; color: black; font-size: large">
         <option value="" disabled selected>Select language (To):</option>
           {% for code, name in supported_languages.items() %}
-            <option value="{{ code }}">{{ name }} - ({{ code }})</option>
+	  <option value="{{ code }}">{{ name }}</option>
           {% endfor %}
       </select>
     </div>
@@ -176,9 +176,9 @@
 <footer class="footer">
   <div class="quick-links">
     <h4 class="quick-links-heading">Quick links</h4>
-    <a href="https://0.0.0.0:5000/privacy_terms">Terms of Service</a>
-    <a href="https://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
-    <a href="#">Contact</a>
+    <a href="privacy_terms.html">Terms of Service</a>
+    <a href="privacy_terms.html">Privacy Policy</a>
+    <a href="contact.html">Contact</a>
   </div>
   <div class="social-bar">
     <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -192,7 +192,7 @@
       <label for="daily-newsletter">Receive daily newsletter</label>
     </div>
     <input type="email" class="newsletter-input" placeholder="Your email address">
-    <button class="newsletter-submit" type="submit">Subscribe</button>
+    <button class="newsletter-submit" type="submit"><a href="/subscribe" style="text-decoration: none; color: white;">Subscribe</a></button>
   </div>
   <div class="copyright">
       © 2023 Universal Translation Service. All rights reserved.</p>

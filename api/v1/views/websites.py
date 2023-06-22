@@ -3,7 +3,7 @@
 from flask import Flask, jsonify, request, abort
 from urllib.parse import urlparse
 import requests
-from langid import classify
+#from langid import classify
 from bs4 import BeautifulSoup
 from translator import storage
 from api.v1.views import app_views

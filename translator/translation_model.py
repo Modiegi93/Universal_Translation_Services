@@ -9,8 +9,10 @@ import sqlalchemy
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+from sqlalchemy import MetaData
 import uuid
 import json
+from sqlalchemy.orm import sessionmaker
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 

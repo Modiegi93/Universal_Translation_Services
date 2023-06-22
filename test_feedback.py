@@ -6,7 +6,7 @@ from translator.feedback import FeedBack
 
 feedbacks = FeedBack(
     user_id="user123",
-    input_text="This translation service is amazing!",
+    text="This translation service is amazing!",
     created_at=datetime.now(),
     updated_at=datetime.now()
 

@@ -14,7 +14,7 @@ from sqlalchemy import Column, String, ForeignKey, Text
 class Settings(TranslationModel, Base):
 
     if translator.storage_type == "db":
-        __tablename__ = "text_translations"
+        __tablename__ = "settings"
         id = Column(String(50), primary_key=True)
         target_languages = Column(String(100))
         default_language = Column(String(100))

@@ -1,12 +1,14 @@
+#!/usr/bin/python3
+
 from datetime import datetime
 from translator import storage
 from translator.image import ImageTranslation
 
 # Create a new ImageTranslation object
 image_translations = ImageTranslation(
-    input_file="image.png",
-    source_language="en",
-    target_language="fr",
+    input_text="image.png",
+    source_lang="en",
+    target_lang="fr",
     translated_text="image_fr.png",
     created_at=datetime.now(),
     updated_at=datetime.now()

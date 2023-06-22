@@ -13,6 +13,7 @@ from translator.website import WebsiteTranslation
 from translator.detect_language import DetectLanguage
 from translator.language import LanguageSupport
 from translator.feedback import FeedBack
+from translator.subscription import Subscription
 from translator.user import User
 
 classes = {"TranslationModel": TranslationModel,
@@ -20,6 +21,7 @@ classes = {"TranslationModel": TranslationModel,
            "DocumentTranslation": DocumentTranslation,
            "ImageTranslation": ImageTranslation,
            "DetectLanguage": DetectLanguage, "FeedBack": FeedBack,
+           "Subscription": Subscription,
            "LanguageSupport": LanguageSupport, "User": User}
 
 

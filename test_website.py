@@ -5,10 +5,10 @@ from translator.website import WebsiteTranslation
 
 # Create a new WebsiteTranslation object
 website_translations = WebsiteTranslation(
-    website_url="https://example.com",
-    source_language="en",
-    target_language="fr",
-    translated_html="https://example.com/fr",
+    input_text="https://example.com",
+    source_lang="en",
+    target_lang="fr",
+    translated_text="https://example.com/fr",
     created_at=datetime.now(),
     updated_at=datetime.now()
 )

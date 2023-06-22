@@ -4,19 +4,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/scripts/general.js?{{ cache_id }}"></script>
-    <script src="/scripts/page_links.js?{{ cache_id }}"></script>
-    <script src="/scripts/my_account.js?{{ cache_id }}"></script>
-    <script src="/scripts/footer.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/general.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/page_links.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/my_account.js?{{ cache_id }}"></script>
+    <script src="../static/scripts/footer.js?{{ cache_id }}"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css?{{ cache_id }}">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js?{{ cache_id }}"></script>
-  <link rel="stylesheet" href="../styles/my_account.css?{{ cache_id }}"/>
-  <link rel="shortcut icon" href="/images/logo.png?{{ cache_id }}"/>
+  <link rel="stylesheet" href="../static/styles/my_account.css?{{ cache_id }}"/>
+  <link rel="shortcut icon" href="../static/images/logo.png?{{ cache_id }}"/>
 </head>
 <body>
   <header style="display: flex; justify-content: space-between; align-items: center; background-color: lightgrey; padding: 10px;">
     <div class="logo">
-      <img src="/images/logo.png" alt="Logo">
+      <img src="../static/images/logo.png" alt="Logo">
     </div>
     <div class="header-container" style="display: flex; align-items: center;">
       <div class="search-container" style="margin-right: 10px;">
@@ -28,17 +28,17 @@
       <div class="dropdown">
   	<button onclick="myFunction()" class="dropbtn">My Account</button>
   	<div id="myDropdown" class="dropdown-content">
-    		<a href="http://0.0.0.0:5000/my_account">My Account</a>
-    		<a href="http://0.0.0.0:5000/logout">Logout</a>		
+    		<a href="my_account.html">My Account</a>
+    		<a href="index.html">Logout</a>		
   	</div>
       </div>
     </div>
 </header>
 <div id="mySidenav" class="sidenav">
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-  <a href="http://0.0.0.0:5000/about_us">About us</a>
-  <a href="http://0.0.0.0:5000/translations">Translations</a>
-  <a href="http://0.0.0.0:5000/privacy_terms">Privacy&Terms</a>
+  <a href="about_us.html">About us</a>
+  <a href="translations.html">Translations</a>
+  <a href="privacy_terms.html">Privacy&Terms</a>
 </div>
 <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Menu</span>
 <div id="main">
@@ -61,22 +61,23 @@
             <th>Type</th>
         </tr>
         <tr>
-            <td></td>
-	    <td></td>
-            <td></td>
-	    <td></td>
-	    <td></td>
+		<td>{{ translation.created_at }}</td>
+            	<td>{{ translation.input_text }}</td>
+            	<td>{{ translation.translated_text }}</td>
+            	<td>{{ translation.target_lang }}</td>
+            	<td>{{ translation.type }}</td>
         </tr>
+	{% endfor %}
     </table>
 </div>
 <div id="Settings" class="tabcontent">
       <h3>Settings</h3>
       <form>
         <label for="target-languages">Target Languages:</label><br>
-        <input type="text" id="target-languages" name="target_languages" value="Zulu"><br><br>
+        <input type="text" id="target-languages" name="target_languages" value="{{ translation_settings.target_languages }}"><br><br>
 
         <label for="default-language">Default Language:</label><br>
-        <input type="text" id="default-language" name="default_language" value="English"><br><br>
+        <input type="text" id="default-language" name="default_language" value="{{ translation_settings.default_language }}"><br><br>
 
         <input type="submit" value="Save Settings">
       </form>
@@ -91,7 +92,7 @@
     <li>10GB Storage</li>
     <li>50 Emails(image or document)</li>
     <li>15 website translations</li>
-    <li class="grey"><a href="https:/0.0.0.0:5000/signup_basic" class="price_button" style="background-color: rgb(54, 123, 180);">Current plan<li>
+    <li class="grey"><a href="my_account.html" class="price_button" style="background-color: rgb(54, 123, 180);">Current plan<li>
   </ul>
 </div>
 <div class="price_columns">
@@ -101,7 +102,7 @@
     <li>25GB Storage</li>
     <li>100 Emails(image or document)</li>
     <li>30 Websites</li>
-    <li class="grey"><a href="https:/0.0.0.0:5000/signup_pro" class="price_button">Upgrade</a></li>
+    <li class="grey"><a href="payment.html" class="price_button">Upgrade</a></li>
   </ul>
 </div>
 <div class="price_columns">
@@ -111,7 +112,7 @@
     <li>50GB Storage</li>
     <li>200 Emails(images or documents)</li>
     <li>50 Websites </li>
-    <li class="grey"><a href="https:/0.0.0.0:5000/signup_premium" class="price_button">Upgrade</a></li>
+    <li class="grey"><a href="payment.html" class="price_button">Upgrade</a></li>
   </ul>
 </div>
 </div>
@@ -120,9 +121,9 @@
 <footer class="footer">
       <div class="quick-links">
         <h4 class="quick-links-heading">Quick links</h4>
-        <a href="http://0.0.0.0:5000/privacy_terms">Terms of Service</a>
-        <a href="http://0.0.0.0:5000/privacy_terms">Privacy Policy</a>
-        <a href="http://0.0.0.0:5000">Contact</a>
+        <a href="privacy_terms.html">Terms of Service</a>
+        <a href="privacy_terms.html">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
       </div>
       <div class="social-bar">
         <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -136,7 +137,7 @@
           <label for="daily-newsletter">Receive daily newsletter</label>
         </div>
         <input type="email" class="newsletter-input" placeholder="Your email address">
-	<button class="newsletter-submit" type="submit"><a href="http://0.0.0.0:5000/subscribe" style="text-decoration: none; color: white;">Subscribe</a></button>
+	<button class="newsletter-submit" type="submit"><a href="/subscribe" style="text-decoration: none; color: white;">Subscribe</a></button>
       </div>
       <div class="copyright">
           © 2023 Universal Translation Service. All rights reserved.</p>
